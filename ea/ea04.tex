@@ -1,0 +1,235 @@
+\section{előadás (2025. szeptember 30.)}
+\subsubsection*{Gyors mátrixszorzás}
+Könyv: \url{konyv.pdf#page=12}
+
+\textbf{Feladat:} $\underset{p \times q}{A}$ és $\underset{q \times r}{B}$ kompatibilis mátrixok AB szorzatának kiszámítása.
+
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum width=1cm, minimum height=1cm},
+]
+\node[squarenode](A){$A$};
+\node[squarenode](B)[above right = 0.1cm and 0.1cm of A]{$B$};
+\node[squarenode](C)[right = 0.1cm of A]{$C$};
+\node(A_left)[above left = -0.25cm and -0.05cm of A]{};
+\node(A_right)[above right = -0.25cm and -0.05cm of A]{};
+\node(B_top)[above left = -0.05cm and -0.25cm of B]{};
+\node(B_bottom)[below left = -0.05cm and -0.25cm of B]{};
+\draw[-Latex] (A_left) -- (A_right);
+\draw[-Latex] (B_top) -- (B_bottom);
+\end{tikzpicture}
+
+$\underset{p \times r}{C} = \underset{p \times q}{A} \cdot \underset{q \times r}{B}$\\
+$c_{ij} = \overset{q}{\underset{k=1}{\sum}} a_{ik} \cdot b_{kj} \rightarrow$ 1 elem kiszámításához $q$ db elemi szorzás és $q-1$ db elemi összeadás kell.\\
+$p \times r$ darab elem $\rightarrow pqr$
+
+Ha ezek mind $n \times n$-es mátrixok:
+\begin{itemize}
+    \item $M(n) = n^3 \in \Theta(n^3)$ (M az elemi szorzások száma)
+    \item $S(n) = n^3 \in \Theta(n^3)$ (S az elemi összeadások száma)
+\end{itemize}
+Cél: ennél hatékonyabb algoritmus.
+
+Ha A, B, C nem négyzetes, 0-ákkal feltöltjük:\\
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum size=1.5cm},
+    rectanglenode/.style={rectangle, draw=black, minimum width=1.3cm, minimum height=1cm}
+]
+\node[squarenode](square){};
+\node[rectanglenode](rect)[above left = -1.015cm and -1.315cm of square]{A};
+\node[left = 0cm of square.west]{$n$};
+\node[above = 0cm of square.north]{$n$};
+\end{tikzpicture}
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum size=1.5cm},
+    rectanglenode/.style={rectangle, draw=black, minimum width=1cm, minimum height=1.3cm}
+]
+\node[squarenode](square){};
+\node[rectanglenode](rect)[above left = -1.315cm and -1.015cm of square]{B};
+\node[left = 0cm of square.west]{$n$};
+\node[above = 0cm of square.north]{$n$};
+\end{tikzpicture}
+
+Oszd meg és uralkodj ötlet:\\
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum size=0.7cm},
+]
+\node[squarenode](a11){$A_{11}$};
+\node[squarenode](a12)[right = 0cm of a11]{$A_{12}$};
+\node[squarenode](a21)[below = 0cm of a11]{$A_{21}$};
+\node[squarenode](a22)[right = 0cm of a21]{$A_{22}$};
+\node[left = 0cm of a11]{$\frac{n}{2}$};
+\node[above = 0cm of a11]{$\frac{n}{2}$};
+\node[above = 0cm of a12]{$\frac{n}{2}$};
+\node[left = 0cm of a21]{$\frac{n}{2}$};
+\node[left = 0.7cm of $(a11)!0.5!(a21)$]{$A=$};
+\end{tikzpicture}
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum size=0.7cm},
+]
+\node[squarenode](b11){$B_{11}$};
+\node[squarenode](b12)[right = 0cm of b11]{$B_{12}$};
+\node[squarenode](b21)[below = 0cm of b11]{$B_{21}$};
+\node[squarenode](b22)[right = 0cm of b21]{$B_{22}$};
+\node[left = 0.5cm of $(b11)!0.5!(b21)$]{$B=$};
+\end{tikzpicture}
+\begin{tikzpicture}[
+    squarenode/.style={rectangle, draw=black, minimum size=0.7cm},
+]
+\node[squarenode](c11){$C_{11}$};
+\node[squarenode](c12)[right = 0cm of c11]{$C_{12}$};
+\node[squarenode](c21)[below = 0cm of c11]{$C_{21}$};
+\node[squarenode](c22)[right = 0cm of c21]{$C_{22}$};
+\node[left = 0.5cm of $(c11)!0.5!(c21)$]{$C=$};
+\end{tikzpicture}
+
+Az $A$ és $B$ mátrixok helyett 4-4 db $\frac{n}{2} \times \frac{n}{2}$-es mátrix.
+\begin{flalign*}
+    C_{11} &= A_{11} \cdot B_{11} + A_{12} \cdot B_{21}&&\\
+    C_{12} &= A_{11} \cdot B_{12} + A_{12} \cdot B_{22}&&\\
+    C_{21} &= A_{21} \cdot B_{11} + A_{22} \cdot B_{12}&&\\
+    C_{22} &= A_{21} \cdot B_{12} + A_{12} \cdot B_{22}
+\end{flalign*}
+
+Elemi szorzások száma:
+$
+M(n) =
+\begin{cases}
+    1 & n=1\\
+    8M\left(\frac{n}{2}\right) & n \geq 2\\
+\end{cases}
+$  
+
+Elemi összeadások száma:
+$
+S(n) =
+\begin{cases}
+    0 & n=1\\
+    8S\left(\frac{n}{2}\right) + 4\left(\frac{n}{2}^2\right) & n \geq 2\\
+\end{cases}
+$
+
+\textbf{Kérdés: hatékonyabb-e ez a módszer?}
+
+Csökkent-e az $M(n)$ és $S(n)$ érték?
+Használjuk a Mester tételt: $T(n) = a \cdot T\left(\frac{n}{b}\right) + f(n)$
+
+\begin{itemize}
+    \item $M(n) = 8M\left(\frac{n}{2}\right)$
+    \item $a = 8$, $b = 2$, $f(n) = 0$
+    \item $n^{\log_2 8} = n^3$
+\end{itemize}
+
+M.T. 1. eset: ha $f(n) \in \mathcal{O}(n^{log_b a} - \mathcal{E})$ valamilyen $\mathcal{E} > 0$-ra (pl. $\mathcal{E}=0.5$), akkor $M(n) \in \Theta(n^3)$.
+
+\begin{itemize}
+    \item $S(n) = 8M\left(\frac{n}{2}\right) + n^2$
+    \item $a = 8$, $b = 2$, $f(n) = n^2 \in \mathcal{O}(n^{\log_2 8 - \mathcal{E}})$, pl. $\mathcal{E}=0.5$
+    \item $n^{\log_2 8} = n^3$
+\end{itemize}
+
+M.T. 1. eset $\rightarrow S(n) \in \Theta(n^3)$.
+
+Sajnos az elemi műveletek száma nem javult, nem nyertünk semmit.
+
+Volker Strassen észrevétele: 7 db $\frac{n}{2} \times \frac{n}{2}$-es szorzással is megkaphatjuk az eredményt.
+\begin{flalign*}
+    P_1 &= A_{11} \cdot (B_{12} - B_{22}) &&\\
+    P_2 &= (A_{11} + A_{12}) \cdot B_{22} &&\\
+    P_3 &= (A_{21} + B_{22}) \cdot B_{11} &&\\
+    P_4 &= A_{22} \cdot (B_{21} - B_{11}) &&\\
+    P_5 &= (A_{11} + A_{22}) \cdot (B_{11} + B_{22}) &&\\
+    P_5 &= (A_{12} - A_{22}) \cdot (B_{21} + B_{22}) &&\\
+    P_5 &= (A_{11} - A_{21}) \cdot (B_{11} + B_{12})
+\end{flalign*}
+\begin{flalign*}
+    C_{11} &= P_5 + P_4 - P_2 + P_6 &&\\
+    C_{12} &= P_1 + P_2 &&\\
+    C_{21} &= P_3 + P_4 &&\\
+    C_{22} &= P_5 + P_1 - P_3 - P_7
+\end{flalign*}
+
+Összesen:
+\begin{itemize}
+    \item 7 db szorzás (7 db rekurzív hívás $\frac{n}{2} \times \frac{n}{2}$ méretű mátrixokra)
+    \item 18 db összeadás
+\end{itemize}
+
+$
+M(n) =
+\begin{cases}
+    1 & n=1\\
+    7M\left(\frac{n}{2}\right) & n \geq 2\\
+\end{cases}
+$
+ és 
+$
+S(n) =
+\begin{cases}
+    0 & n=1\\
+    7S\left(\frac{n}{2}\right) + 18\left(\frac{n}{2}^2\right) & n \geq 2\\
+\end{cases}
+$
+
+M.T. ezekre a rekurzív függvényekre:
+\begin{itemize}
+    \item $M(n) = 7M\left(\frac{n}{2}\right)$
+    \item $a = 7$, $b = 2$, $f(n) = 0$
+\end{itemize}
+
+M.T. 1. eset: mivel $f(n) \in \mathcal{O}(n^{log_2 7} - \mathcal{E})$ valamilyen $\mathcal{E} > 0$-ra (pl. $\mathcal{E}=0.5$), ezért $M(n) \in \Theta(n^{log_2 7})$.
+
+
+\begin{itemize}
+    \item $S(n) = 7S\left(\frac{n}{2}\right) + \frac{9}{2}n^2$
+    \item $a = 7$, $b = 2$, $f(n) = 4.5n^2$
+    \item $n^{\log_2 7} = n^{2.81}$
+\end{itemize}
+
+M.T. 1. eset: mivel $f(n) \in \mathcal{O}(n^{log_2 7} - \mathcal{E})$ pl. $\mathcal{E}=0.1$, ezért $S(n) \in \Theta(n^{log_2 7})$.
+\begin{flalign*}
+    C_{12}
+    &= P_1 + P_2 &&\\
+    &= A_{11}(B_{12} - B_{22}) + (A_{11} + A_{12}) B_{22} &&\\
+    &= A_{11}B_{12} - \text{\st{$A_{11}B_{22}$}} + \text{\st{$A_{11}B_{22}$}} + A_{11}B_{22}
+\end{flalign*}
+$C_{21}$ hasonlóan
+\begin{flalign*}
+    C_{11} &= P_5 + P_4 - P_2 + P_6 &&\\
+    &= (A_{11} - A_{22})(B_{11} + B_{22}) + A_{21}(B_{21}-B_{11})-(A_{11} + A_{12})B_{22} + (A_{12}-A_{22})(B_{21}+B_{22}) &&\\
+    &= \cdots
+\end{flalign*}
+
+\textbf{HF.} kérdés: adott $A, B, C \in \mathcal{R}^{n \times n}$ mátrixok esetén a számolások elvégzése nélkül eldönthető-e, hogy AB = C?
+
+\clearpage
+\subsection{Randomizált algoritmusok}
+\begin{itemize}
+    \item Las Vegas típusú: sosem téved, de néha lassú, pl. quicksort
+    \item Monte Carlo típusú: gyors, de néha téved, pl. Freivalds algoritmus
+\end{itemize}
+
+\subsubsection*{Freivalds algoritmus}
+\begin{itemize}
+    \item Véletlenszerűen választunk egy $\alpha \in \{0, 1\}^n$ bitvektort és kiszámoljuk ($\Theta(n^2)$ költséggel) a $\beta = (AB) \cdot \alpha = A \cdot (B \alpha)$ és $\gamma = C \cdot \alpha$ vektorokat.
+    \item Ha $\beta \neq \gamma$, akkor visszatérünk HAMIS válasszal (itt biztosan nem tévedtünk).
+    \item Ha $\beta = \gamma$, akkor visszatérünk IGAZ válasszal (lehet, hogy tévedtünk).
+\end{itemize}
+
+\textbf{Észrevétel:} az utóbbi eset az n dimenziós $\alpha$ bitvektorok legfeljebb felére teljesülhet.
+Ha $\alpha$-t véletlenszerűen választjuk, akkor a tévedés valószínűsége $\leq \frac{1}{2}$.
+Az algoritmus: végezzük el ezt 100-szor egymás után $\rightarrow$ a tévedés valószínűsége $\leq (\frac{1}{2})^{100}$.
+
+\textbf{Észrevétel bizonyítása:}\\
+Ha $AB \neq C$ és valamilyen $\alpha$-ra $AB \alpha = C \alpha$, akkor
+\begin{itemize}
+    \item $AB-C$ mátrix nem az azonosan 0 mátrix.
+    \item tfh. az $i$. sor $j$. eleme $d > 0$.
+    \item legyen $\alpha'$ az a vektor, ha $\alpha$-ban a $j$. elemet átváltjuk (bit flip).
+\end{itemize}
+Ekkor $(AB-C) \alpha'$ $i$. koordinátája megváltozott ($-d$-re, $+d$-re), tehát $(AB-C) \alpha' \neq 0$.
+Minden $\alpha$ vektorhoz találhatunk $\alpha'$ vektort, ami kimutatja az $AB \neq C$ tényt, és különböző $\alpha$ vektorokhoz különböző $\alpha'$-t kapunk $\rightarrow$ a hamis eredményt adó vektorok száma $\geq$ helyes eredményt adó vektorok száma.
+
+
+
+
+

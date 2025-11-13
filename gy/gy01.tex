@@ -1,0 +1,150 @@
+\section{gyakorlat (2025. szeptember 10.)}
+\subsection{Naiv algoritmus (nem feltétlen termináló)}
+Könyv: \url{konyv.pdf#page=105}
+
+\begin{tabular}{l l}
+    $f_1 \rightarrow (l_2, l_1, l_3)$ & $l_1 \rightarrow (f_1, f_3, f_2)$ \\
+    $f_2 \rightarrow \text{tetszőleges, pl. } (l_1, l_2, l_3)$ & $l_2 \rightarrow (f_3, f_1, f_2)$ \\
+    $f_3 \rightarrow (l_1, l_2, l_3)$ & $l_3 \rightarrow \text{tetszőleges, pl. } (f_1, f_2, f_3)$ \\
+\end{tabular}
+
+\textbf{Algoritmus}
+\begin{enumerate}
+    \item Keressünk instabilitást a párosításban: egy fiúnak jobban tetszik egy másik lány ÉS aa lánynak jobban tetszik egy másik fiú.
+    \item Az (egyik) instabilitásbeli \ul{négyest} felcseréljük.
+\end{enumerate}
+
+\setulcolor{red}
+\textbf{Kezdeti párosítás:} $M_0=\left\{\text{\ul{$(f_1, l_1)$}}, \text{\ul{$(f_2, l_2)$}}, (f_3, l_3)\right\}$, ez nem stabil.\\
+\textbf{Instabilitás:} $\left[f_3-l_2\right]$ és \ul{$\left[f_1-l_2\right]$} (több van, ezért \ul{választunk} egyet)
+
+\setulcolor{blue}
+$M_1=\left\{\text{\ul{$(f_1, l_2)$}}, (f_2, l_1), \text{\ul{$(f_3, l_3)$}}\right\}$\\
+\textbf{Instabilitás:} \ul{$\left[f_3-l_2\right]$} és $\left[f_3-l_1\right]$
+
+\setulcolor{green}
+$M_2=\left\{(f_1, l_3), \text{\ul{$(f_2, l_1)$}}, \text{\ul{$(f_3, l_2)$}}\right\}$\\
+\textbf{Instabilitás:} $\left[f_1-l_1\right]$ és \ul{$\left[f_3-l_1\right]$}
+
+\setulcolor{orange}
+$M_3=\left\{\text{\ul{$(f_1, l_3)$}}, \text{\ul{$(f_2, l_2)$}}, (f_3, l_1)\right\}$\\
+\textbf{Instabilitás:} $\left[f_1-l_2\right]$ és \ul{$\left[f_1-l_1\right]$}
+
+$M_4=\left\{(f_1, l_1), (f_2, l_2), (f_3, l_3)\right\} = M_0$\\
+Végtelen ciklus: $M_0, M_1, M_2, M_3, M_4=M_0, M_1, M_2, \cdots$
+
+
+\subsection{Gale-Shapley algoritmus}
+\sethlcolor{orange}
+\hl{(zh. feladat)}
+
+\setstcolor{red}
+\begin{tabular}{l l}
+    $f_1 \rightarrow (\text{\st{$l_3$}}, \text{\st{$l_2$}}, l_5, l_1, l_4)$ & $l_1 \rightarrow (f_3, f_5, f_2, f_1, f_4)$ \\
+    $f_2 \rightarrow (\text{\st{$l_1$}}, l_2, l_5, l_3, l_4)$ & $l_2 \rightarrow (f_5, f_2, f_1, f_4, f_3)$ \\
+    $f_3 \rightarrow (l_4, l_3, l_2, l_1, l_5)$ & $l_3 \rightarrow (f_4, f_3, f_5, f_1, f_2)$ \\
+    $f_4 \rightarrow (\text{\st{$l_1$}}, l_3, l_4, l_2, l_5)$ & $l_4 \rightarrow (f_1, f_2, f_3, f_4, f_5)$ \\
+    $f_5 \rightarrow (l_1, l_2, l_4, l_5, l_3)$ & $l_5 \rightarrow (f_2, f_3, f_4, f_1, f_5)$ \\
+\end{tabular}
+
+\begin{tabular}{c|c|c|c|c|c|}
+    & $l_1$ & $l_2$ & $l_3$ & $l_4$ & $l_5$ \\
+    \hline
+    1. & $f_2$, $f_4$, \fbox{$f_5$} &  & $f_1$ & $f_3$ &  \\
+    2. & $f_5$ & $f_2$ & $f_1$, \fbox{$f_4$} & $f_3$ &  \\
+    3. & $f_5$ & \fbox{$f_2$}, $f_1$ & $f_4$ & $f_3$ &  \\
+    4. & $f_5$ & $f_2$ & $f_4$ & $f_3$ & $f_1$ \\
+\end{tabular}
+
+\textbf{Észrevétel 1:} mindig van egy lány, akinél csak az utolsó napon jelenik meg egy szerenádozó.
+Ezt a lányt senki sem húzza ki a preferencialistájáról.\\
+\textbf{Észrevétel 2:} a többi lányt legalább 1 fiú nem húzza ki.\\
+Kihúzások száma: $n^2-n-(n-1)=(n-1)^2+1$
+
+\textbf{Hány nap alatt fejeződik be biztosan?} Előadás: $n^2+1$ korlát (minden nap legalább 1 lányt kihúznak).\\
+\textbf{Észrevétel 1:} $n^2+1-n$\\
+\textbf{Észrevétel 2:} $n^2+1-n-(n-1)$ (a végén n-1 mert az első észrevételbeli lányt nem számoljuk még egyszer)\\
+\textbf{Összesen:} $n^2+1-n-(n-1)=(n^2-2n+1)+1=(n-1)^2+1$
+
+
+\textbf{Maximum hány stabil párosítás lehetséges n fiú és n lány között?} Az összes teljes párosítás száma: $n!$.
+Gale-Shapley algoritmus: mindig van legalább 1.\\
+\textbf{HF. } ha minden lánynak ugyanaz a preferencialistája, akkor csak 1 létezik.
+Észrevétel: néha 1-nél több van.
+
+\begin{tikzpicture}
+\node(f1){$f_1 \rightarrow (l_1, l_2)$};
+\node(l1)[right = 0.5cm of f1]{$l_1 \rightarrow (f_2, f_1)$};
+\node(f2)[below = 0.5cm of f1]{$f_2 \rightarrow (l_2, l_1)$};
+\node(l2)[below = 0.5cm of l1]{$l_2 \rightarrow (f_1, f_2)$};
+\draw[red] (f1) -- (l1);
+\draw[red] (f2) -- (l2);
+\draw[green] (f1) -- (l2);
+\draw[green] (f2) -- (l1);
+\end{tikzpicture}
+
+{\color{red} Stabil párosítás:} minden \textbf{fiú} a preferencialistájának elsőjét kapja.\\
+{\color{green} Stabil párosítás:} minden \textbf{lány} a preferencialistájának elsőjét kapja.
+
+\textbf{Meglepetés:}
+2n fiú és 2n lány van, akár $2^n$ párosítás is lehetséges.\\
+\begin{tabular}{l l}
+    $f_1 \rightarrow (l_1, l_2, \cdots)$ & $l_1 \rightarrow (\cdots, f_1)$ \\
+    $f_2 \rightarrow (l_2, l_1, \cdots)$ & $l_2 \rightarrow (\cdots, f_2)$ \\
+    $f_3 \rightarrow (l_3, l_4, \cdots)$ & $l_3 \rightarrow (\cdots, f_3)$ \\
+    $f_4 \rightarrow (l_4, l_3, \cdots)$ & $l_4 \rightarrow (\cdots, f_4)$ \\
+    $f_{2i-1} \rightarrow (l_{2i-1}, l_{2i}, \cdots)$ & $l_1 \rightarrow (\cdots, f_{2i-1})$ \\
+    $f_{2i} \rightarrow (l_{2i}, l_{2i-1}, \cdots)$ & $l_1 \rightarrow (\cdots, f_{2i})$ \\
+    \vdots & \vdots \\
+    $f_{2n-1} \rightarrow (l_{2n-1}, l_{2n}, \cdots)$ & $l_1 \rightarrow (\cdots, f_{2n-1})$ \\
+    $f_{2n} \rightarrow (l_{2n}, l_{2n-1}, \cdots)$ & $l_1 \rightarrow (\cdots, f_{2n})$ \\
+\end{tabular}
+
+A sok-sok stabil párosítás:
+
+\fbox{
+\begin{tikzpicture}
+\node(f1){$f_1$};
+\node(l1)[right = 0.5cm of f1]{$l_1$};
+\node(f2)[below = 0.2cm of f1]{$f_2$};
+\node(l2)[below = 0.2cm of l1]{$l_2$};
+\draw (f1) -- (l1);
+\draw (f2) -- (l2);
+\end{tikzpicture}
+}
+vagy
+\fbox{
+\begin{tikzpicture}
+\node(f1){$f_1$};
+\node(l1)[right = 0.5cm of f1]{$l_1$};
+\node(f2)[below = 0.2cm of f1]{$f_2$};
+\node(l2)[below = 0.2cm of l1]{$l_2$};
+\draw (f1) -- (l2);
+\draw (f2) -- (l1);
+\end{tikzpicture}
+}
+
+\fbox{
+\begin{tikzpicture}
+\node(f3){$f_3$};
+\node(l3)[right = 0.5cm of f3]{$l_3$};
+\node(f4)[below = 0.2cm of f3]{$f_4$};
+\node(l4)[below = 0.2cm of l3]{$l_4$};
+\draw (f3) -- (l3);
+\draw (f4) -- (l4);
+\end{tikzpicture}
+}
+vagy
+\fbox{
+\begin{tikzpicture}
+\node(f3){$f_3$};
+\node(l3)[right = 0.5cm of f3]{$l_3$};
+\node(f4)[below = 0.2cm of f3]{$f_4$};
+\node(l4)[below = 0.2cm of l3]{$l_4$};
+\draw (f3) -- (l4);
+\draw (f4) -- (l3);
+\end{tikzpicture}
+}
+
+Minden sorból választunk egyet: $2^n$ lehetőség.\\
+\textbf{HF. } az összes így kapott párosítás stabil (nincs instabilitás).

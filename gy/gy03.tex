@@ -1,0 +1,143 @@
+\section {gyakorlat (2025. szeptember 24.)}
+\textbf{Állítás (pareto optimalitás):}
+Jelölje $M$ a Gale-Shapley algoritmus által szolgáltatott (fiú-optimális) párosítást.
+Ekkor nem létezik olyan $M'$ teljes párosítás (nem stabil sem), ahol minden fiú jobban jár mint $M$-ben.
+(Olyat valószínűleg tudunk mutatni, amiben valamelyik fiú jobban jár mint $M$-ben, mivel a Gale-Shapley algoritmus esetén lehet olyan fiú aki nem a listájáról az első lányt kapta.
+Ha ez a fiú megkapja a listájának első lányát (és a többi fiú is valamilyen módon kap egy új párt), akkor máris mutattunk egy ilyen párosítást.)
+
+\textbf{Bizonyítás:}
+Indirekt tegyük fel, hogy létezik olyan $M'$ teljes párosítás, ahol minden fiú jobban jár, mint $M$-nél.
+Nézzük az M-et előállító Gale-Shapley algoritmus lefutását.
+Ekkor van olyan $l$ lány, akinek csak az utolsó napon jelenik meg az ablaka alatt szerenádozó, aki végül a párja lesz.
+Legyen ez a fiú $f$.
+Most $f$ $M'$-beli $l'$ párja jobban tetszik $f$-nek, mint $l$ (spec. $l' \neq l$).
+Jelölje $l$ $M$-beli párját $f'$.
+Ismét, $f'$ $M'$-beli $l$ párja jobban tetszik $f'$-nek, mint az $M$-beli párja.
+
+Igen ám, de ekkor $f'$ az utolsó nap előtt szerenádozott $l$-nél és kosarat kapott, ellentmondva annak, hogy $l$-nél csak az utolsó nap szerenádozik valaki.
+
+\subsection*{Megoldandó probléma}
+$T(n) = a T\left(\frac{n}{b}\right) + f(n)$ alakú rekurziók.
+
+\textbf{Összefésüléses rendezés}\\
+$T(n) = 2 T\left(\frac{n}{2}\right) + n \rightarrow T(n) = \Theta(n \log n)$
+
+\textbf{Maximális növekedés}\\
+Adott pozitív számoknak egy $A[1:n]$ tömbje.
+Keressünk olyan $1 \leq i \leq j \leq n$ indexeket, hogy $A[j] - A[i]$ maximális.
+
+\subsection*{Oszd meg és uralkodj algoritmusok}
+Oszd meg és uralkodj algoritmust tervezünk (van más, hatékony módszer is).
+\begin{enumerate}
+    \item Bontsuk a feladatot két feleakkora méretű feladatra:
+    \begin{itemize}
+        \item $A[1: \frac{n}{2}]$-ben hol van a maximális növekedés
+        \item $A[\frac{n}{2} + 1: n]$-ben hol van a maximális növekedés
+    \end{itemize}
+    \item Rekurzívan megoldjuk a részfeladatokat:
+    \begin{itemize}
+        \item $A[1: \frac{n}{2}] \rightarrow 1 \leq i' \leq j' \leq \frac{n}{2}$
+        \item $A[\frac{n}{2} + 1: n] \rightarrow \frac{n}{2} + 1 \leq i'' \leq j'' \leq n$
+    \end{itemize}
+    Egyelemű tömbökre direkt megoldás: a két index megegyezik az elem indexével.
+    \item A maximális növekedést adó $i$ és $j$ meghatározása. Három eset van:
+    \begin{enumerate}
+        \item $A[1: \frac{n}{2}]$-ben (az első felében) van a maximális növekedés $\rightarrow i = i' \text{ és } j = j'$
+        \item $A[\frac{n}{2} + 1: n]$-ben (a második felében) van a maximális növekedés $\rightarrow i = i'' \text{ és } j = j''$
+        \item $1 \leq i \leq \frac{n}{2} < j \leq n$ (az egyik az első, a másik a második felében). Ekkor $i$-t célszerű úgy választani, hogy $A[i]$ az $A[1: \frac{n}{2}]$ legkisebb értéke, $j$-t pedig úgy, hogy $A[j]$ az $A[\frac{n}{2} + 1: n]$ legnagyobb értéke.
+    \end{enumerate}
+\end{enumerate}
+
+Nem tudjuk előre, hogy (a), (b) és (c) közül melyik adja az optimumot, ezért mindet megvizsgáljuk és a legkedvezőbbet választjuk.
+
+\subsubsection*{Költség}
+$T(n) = \underbrace{2 T (\frac{n}{2})}_{\text{két rekurzív hívás}} + \underbrace{\Theta(n)}_{\text{\parbox{4.1cm}{\centering min $A[1:\frac{n}{2}]$-ben \\ max $A[\frac{n}{2}+1: n]$-ben \\ (a), (b), (c) "közül a legnagyobb"}}}$
+
+Ez egy összefésüléses rendezés rekurzió $\rightarrow T(n) = \Theta(n log n)$
+
+\clearpage
+\textbf{Van hatékonyabb?} Nem meglepő módon igen:
+
+\begin{tikzpicture}[
+    squarenodebig/.style={rectangle, draw=black, minimum width=2.4cm, minimum height=0.5cm},
+    squarenodesmall/.style={rectangle, draw=black, minimum width=1.2cm, minimum height=0.5cm}
+]
+\node[squarenodebig](arr_1_1){};
+\node[squarenodebig](arr_1_2)[right = 0cm of arr_1_1]{};
+\node[squarenodesmall](arr_2_1)[below left = 1.5cm and 0cm of arr_1_1]{};
+\node[squarenodesmall](arr_2_2)[right = 0cm of arr_2_1]{};
+\node[squarenodesmall](arr_2_4)[below right = 1.5cm and 0cm of arr_1_2]{};
+\node[squarenodesmall](arr_2_3)[left = 0cm of arr_2_4]{};
+
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_1_1.west) -- (arr_1_1.east);
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_1_2.west) -- (arr_1_2.east);
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_2_1.west) -- (arr_2_1.east);
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_2_2.west) -- (arr_2_2.east);
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_2_3.west) -- (arr_2_3.east);
+\draw[thick, decoration={brace, raise=0.3cm}, decorate] (arr_2_4.west) -- (arr_2_4.east);
+
+\node[above = 0.2cm of arr_1_1]{$min$};
+\node[above = 0.2cm of arr_1_2]{$max$};
+\node[above = 0.2cm of arr_2_1]{$min^{I}$};
+\node[above = 0.6cm of arr_2_1]{$max^{I}$};
+\node(min2)[above = 0.6cm of arr_2_2]{$min^{II}$};
+\node[above = 0.2cm of arr_2_2]{$max^{II}$};
+\node[above = 0.2cm of arr_2_3]{$min^{III}$};
+\node[above = 0.6cm of arr_2_3]{$max^{III}$};
+\node(min4)[above = 0.6cm of arr_2_4]{$min^{IV}$};
+\node[above = 0.2cm of arr_2_4]{$max^{IV}$};
+
+\draw[->] (arr_1_1.south) -- (min2.north west);
+\draw[->] (arr_1_2.south) -- (min4.north west);
+\end{tikzpicture}
+
+A rekurzív hívásokba süllyesztve a min és max kiválasztást $\Theta(n)$ $\Theta(1)$-re csökken a rekurzióban.
+
+Zárt formula erre: $T(n) = 2T (\frac{n}{2}) + 1$\\
+\textbf{HF. } direkt számolás (önmagába helyettesítés)
+
+Még egy érdekes dolog:\\
+$T(n) = T(\frac{n}{2}) + 1 \rightarrow T(n) = \Theta(\log n)$\\
+$T(n) = T(\frac{n}{2}) + n \rightarrow T(n) = \Theta(n)$
+
+\subsection{Mester-tétel}
+Könyv: \url{konyv.pdf#page=10}\\
+$f(n) \leftrightarrow n^{\log_b a}$
+
+\begin{enumerate}
+    \item
+    \begin{itemize}
+        \item $T(n) = aT\left(\frac{n}{b}\right) + f(n) = 9T\left(\frac{n}{3}\right) + n$
+        \item $n^{\log_b a} = n^{\log_3 9} = n^2$ polinomiálisan nagyobb, mint $f(n)$
+        \item $[f(n) = n = O(n^{2-\mathcal{E}})$, például $\mathcal{E}=\frac{1}{2}$ esetén$]$
+        \item Mester tétel első eset $\rightarrow T(n) = \Theta(n^{log_b a}) = \Theta(n^2)$
+    \end{itemize}
+    \item
+    \begin{itemize}
+        \item $T(n) = T\left(\frac{2n}{3}\right) + 1$ ($a=1$, $b=\frac{3}{2}$, $f(n) = 1$)
+        \item $n^{log_b a} = n^{log_{\frac{3}{2}} 1} = n^0 = 1$ aszimptotikusan megegyezik $f(n)$-nel.
+        \item $[f(n) = 1 = \Theta(n^0) = \Theta(1)]$
+        \item Mester tétel második eset $\rightarrow T(n) = \Theta(n^{\log_b a} \log n) = \Theta(\log n)$ 
+    \end{itemize}
+        \item
+    \begin{itemize}
+        \item $T(n) = 3T\left(\frac{n}{4}\right) + n \log n$ ($a=3$, $b=4$, $f(n) = n \log n$)
+        \item $n^{log_b a} = n^{log_4 3} \approx n^{0,793}$ ($\log_4 3 < log_4 4 = 1$)
+        \item $f(n)$ polinomiálisan nagyobb, mint $n^{0,793}$
+        \item $f(n) = n \log n = \Omega(n^{0,793 + \mathcal{E}})$ pl. $\mathcal{E}=0,1$ esetén
+        \item A Mester tétel harmadik esetének néz ki, de ahhoz hogy tényleg az legyen, még egy dolgot ellenőrizni kell:
+        \begin{itemize}[label=$\diamond$]
+            \item a $f\left(\frac{n}{b}\right) \leq c f(n)$ alkalmas $c < 1$ konstanssal
+            \item $3 f\left(\frac{n}{4}\right) = 3 \left(\frac{n}{4} \log \frac{n}{4}\right) = \frac{3}{4} n \log \frac{n}{4} \leq \frac{3}{4} n \log n$
+            \item $c = \frac{3}{4}$ megfelelő
+            \item Így tényleg mester tétel harmadik eset $\rightarrow T(n) = \Theta(f(n)) = \Theta(n \log n)$
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\textbf{HF. } mindenféle ilyen rekurziók:
+\begin{itemize}
+    \item $T(n) = 2T\left(\frac{n}{2}\right) + n^3$
+    \item $T(n) = 2T\left(\frac{n}{2}\right) + n^2$
+    \item $T(n) = 2T\left(\frac{n}{2}\right) + n \log n$
+\end{itemize}

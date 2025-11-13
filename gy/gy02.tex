@@ -1,0 +1,99 @@
+\section {gyakorlat (2025. szeptember 17.)}
+\textbf{Miért lesz ez mind stabil párosítás?}
+
+Ha a felső kockát választottuk, akkor $f_1$ párja a preferencialistáján az első lány, így $f_1$ nem lehet instabilitás fiú tagja.
+
+Ha az alsó kockát választottuk, akkor $f_1$ párja a preferencialistáján a második lány, így $f_1$ csak az $l_1$ lánnyal lehet instabilitásban.
+Azonban $f_1$ utolsó $l_1$ preferencialistáján, így akárki is $l_1$ párja, ő jobban tetszik $l_1$-nek, mint $f_1$.
+Így $f_1$ most sem lehet instabilitás fiú tagja.
+
+Ez a gondolatmenet minden fiúra alkalmazható, így mind a $2^n$ párosítás stabil.
+
+\subsubsection*{Stabil szobatárs probléma}
+Nem feltétlenül létezik stabil párosítás.
+
+$A \rightarrow (B, C, D)$\\
+$B \rightarrow (C, A, D)$\\
+$C \rightarrow (A, B, D)$\\
+$D \rightarrow mindegy$\\
+
+Három teljes párosítás létezik, A párja egyértelműen meghatározza a párosítást.
+\begin{enumerate}
+    \item $(A, B), (C, D) \rightarrow$ instabilitás: B és C
+    \item $(A, C), (B, D) \rightarrow$ instabilitás: A és B
+    \item $(A, D), (B, C) \rightarrow$ instabilitás: A és C
+\end{enumerate}
+Így itt nincs stabil párosítás.
+
+\subsubsection*{Feladat}
+Legyen $M_1$ és $M_2$ két különböző stabil házasítás (visszatértünk az eredeti fiú-lány feladathoz).
+Minden fiúhoz rendeljük hozzá az $M_1$ és $M_2$-beli párja közül a neki jobban tetszőt.
+Mutassuk meg, hogy így teljes párosítást kapunk (nem triviális) ami ráadásul stabil.
+
+\textbf{Teljes párosítás}
+
+Indirekt tegyük fel, hogy ez nem teljesül, következésképpen vannak olyan $f'$ és $f''$ különböző fiúk, hogy:
+
+$M_1:$
+\begin{tikzpicture}
+\node(f'){$f'$};
+\node(l')[right = 0.5cm of f']{$l'$};
+\node(f'')[below = 0.2cm of f']{$f''$};
+\node(l'')[below = 0.2cm of l']{$l''$};
+\draw (f') -- (l');
+\draw (f'') -- (l'');
+\end{tikzpicture}
+és $M_2:$
+\begin{tikzpicture}
+\node(f'){$f'$};
+\node(l')[right = 0.5cm of f']{$\hat{l'}$};
+\node(f'')[below = 0.2cm of f']{$f''$};
+\node(l'')[below = 0.2cm of l']{$\hat{l''}$};
+\draw (f') -- (l');
+\draw (f'') -- (l'');
+\end{tikzpicture}
+
+és $JobbanTetszik_{f'}(l',\hat{l}') = JobbanTetszik_{f''}(l'',\hat{l}'')$
+Az általánosság megszorítása nélkül feltehetjük, hogy $JobbanTetszik_{f'}(l', l'') = l'$ és $JobbanTetszik_{f''}(l', \hat{l}'') = l''$.
+
+Ha ez nem elég meggyőző: négy eset van:
+\begin{enumerate}
+    \item $JT_{f'}(l', \hat{l}') = l'$ és $JT_{f''}(l'', \hat{l}'') = l''$
+    \item $JT_{f'}(l', \hat{l}') = l'$ és $JT_{f''}(l'', \hat{l}'') = \hat{l}''$
+    \item $JT_{f'}(l', \hat{l}') = \hat{l}'$ és $JT_{f''}(l'', \hat{l}'') = l''$
+    \item $JT_{f'}(l', \hat{l}') = \hat{l}'$ és $JT_{f''}(l'', \hat{l}'') = \hat{l}'' \rightarrow$ nem lehet 
+\end{enumerate}
+
+\textbf{HF. }
+Keressünk instabilitást $M_1$-ben vagy $M_2$-ben.
+
+\textbf{Feladat.}
+Hosszú Gale-Shapley algoritmus futás.
+Először adott 5 fiú - 5 lány.
+
+\begin{tabular}{c|c|c|c|c|c|}
+    & $l_1$ & $l_2$ & $l_3$ & $l_4$ & $l_5$ \\
+    \hline
+    1. & \fbox{$f_1$}, $f_5$ & $f_2$ & $f_3$ & $f_4$ &  \\
+    2. & $f_1$ & \fbox{$f_2$}, $f_5$ & $f_3$ & $f_4$ &  \\
+    3. & $f_1$ & $f_2$ & \fbox{$f_3$}, $f_5$ & $f_4$ &  \\
+    4. & $f_1$ & $f_2$ & $f_3$ & $f_4$, \fbox{$f_5$} &  \\
+    5. & \fbox{$f_1$}, $f_4$ & $f_2$ & $f_3$ & $f_5$ &  \\
+    6. & $f_1$ & \fbox{$f_2$}, $f_4$ & $f_3$ & $f_5$ &  \\
+    7. & $f_1$ & $f_2$ & $f_3$, \fbox{$f_4$} & $f_5$ &  \\
+    8. & $f_1$ & $f_2$ & $f_4$ & \fbox{$f_5$}, $f_3$ &  \\
+    9. & \fbox{$f_1$}, $f_3$ & $f_2$ & $f_4$ & $f_5$ &  \\
+    10. & $f_1$ & $f_2$, \fbox{$f_3$} & $f_4$ & $f_5$ &  \\
+    11. & $f_1$ & $f_3$ & \fbox{$f_4$}, $f_2$ & $f_5$ &  \\
+    12. & $f_1$ & $f_3$ & $f_4$ & \fbox{$f_5$}, $f_2$ &  \\
+    13. & $f_1$, \fbox{$f_2$} & $f_3$ & $f_4$ & $f_5$ &  \\
+    14. & $f_2$ & \fbox{$f_3$}, $f_1$ & $f_4$ & $f_5$ &  \\
+    15. & $f_2$ & $f_3$ & \fbox{$f_4$}, $f_1$ & $f_5$ &  \\
+    16. & $f_2$ & $f_3$ & $f_4$ & \fbox{$f_5$}, $f_1$ &  \\
+    17. & $f_2$ & $f_3$ & $f_4$ & $f_5$ & $f_1$ \\
+\end{tabular}
+
+Ez általánosítható bármely számú fiúra és lányra $\rightarrow (n-1)^2 + 1$ nap.
+
+\textbf{HF.} "Konstruáljuk meg" a preferencialistákat.\\
+\textbf{HF.} Nem létezik olyan teljes párosítás (stabil vagy nem stabil), amelyben minden fiúnak szigorúan jobban tetszik a párja, mint a Gale-Shapley algoritmus által szolgáltatott párja.

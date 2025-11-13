@@ -1,0 +1,133 @@
+\section{előadás (2025. október 7.)}
+
+\subsubsection*{Polinomok szorzása}
+Könyv: \url{konyv.pdf#page=16}
+
+$A(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_{n-1} x^{n-1}$ és $B(x) = b_0 + b_1 x + b_2 x^2 + \cdots + b_{m-1} x^{m-1}$ $(n-1)$-ed és $(m-1)$-edfokú polinomok.
+Határozzuk meg a szorzatpolinomot: $C(x) = A(x) \cdot B(x)$, ahol $C(x) = c_0 + c_1 x + c_2 x^2 + \cdots + c_{n+m-2} x^{n+m-2}$.
+
+\begin{flalign*}
+    \color{red}{c_0} &\color{red}{= a_0 b_0} &&\\
+    \color{orange}{c_1} &\color{orange}{= a_0 b_1 + a_1 b_0} &&\\
+    \color{green}{c_2} &\color{green}{= a_0 b_2 + a_1 b_1 + a_2 b_0} &&\\
+    &\vdots &&\\
+    c_i &= a_0 b_i + a_1 b_{i-1} + a_2 b_{i-2} + \cdots + a_{i-1} b_1 + a_i b_0
+\end{flalign*}
+
+$
+\begin{bmatrix}
+    \color{red}{a_0 b_0} & \color{orange}{a_0 b_1} & \color{green}{a_0 b_2} & \color{blue}{a_0 b_3} \\
+    \color{orange}{a_1 b_0} & \color{green}{a_1 b_1} & \color{blue}{a_1 b_2} & \\
+    \color{green}{a_2 b_0} & \color{blue}{a_2 b_1} & & \\
+    \color{blue}{a_3 b_0} & & & 
+\end{bmatrix}
+$
+
+Szorzatpolinom meghatározása: $\rightarrow c_0, c_1, c_2, \cdots, c_{n+m-2}$ értékei.
+Naiv módszer költsége: $\mathcal{O}(nm)$.
+
+\textbf{Van-e ennél hatékonyabb?}
+Van! Oszd meg és uralkodj algoritmust fejlesztünk (a szokásos egyszerűsítő feltételezésekkel élünk, $n=m$ kettő hatvány).
+Naiv algoritmus: elemi algebra, szofisztikált algoritmus: analízis.
+
+\subsubsection*{Interpoláció}
+Egy $(n-1)$-edfokú valós (komplex) polinomot meghatároz $n$ helyettesítési értéke $\rightarrow$ interpolációs formulák (Newton, Lagrange).
+
+\textbf{Ötlet:} határozzuk meg az $A(x)$ és $B(x)$ polinomok helyettesítési értékeit bizonyos $z_1, z_2, \cdots$ pontokban.
+Ebből meglesznek $C(x)$ helyettesítési értékei a $z_1, z_2, \cdots$ pontokban.
+Ezekből határozzuk meg $C(x)$ együtthatóit.
+
+\textbf{Boszorkányos ötlet:} ha $A(x)$ és $B(x)$ $(n-1)$-edfokú polinomok, akkor $z_1, z_2, \cdots$ legyenek a $2n$-edik komplex egységgyökök.
+
+\subsubsection*{Komplex számok}
+$a + bi$ alak, ahol $i = \sqrt{-1}$.
+
+\begin{tikzpicture}
+\node(origo){};
+\node[below = 1cm of origo](ImStart){};
+\node[above = 2cm of origo](ImEnd){};
+\node[left = 1cm of origo](ReStart){};
+\node[right = 3cm of origo](ReEnd){};
+\node[below left = 0cm and 0cm of ImEnd]{Im};
+\node[below left = 0cm and -0.1cm of ReEnd]{Re};
+\draw[->] (ImStart) -- (ImEnd);
+\draw[->] (ReStart) -- (ReEnd);
+\node[right = 2cm of origo](x){};
+\node[above = 1cm of origo](y){};
+\node[circle, fill, inner sep=1pt][above = 1.065cm of x](point){};
+\node[right = 0cm of point]{$a + bi$};
+\draw (x.center) -- (point);
+\draw (y.center) -- (point);
+\draw[decoration={brace, raise=0.05cm, mirror}, decorate] (origo) -- (x);
+\draw[decoration={brace, raise=0.05cm }, decorate] (origo) -- (y);
+\node[below = 0.12cm of $(origo)!0.5!(x)$]{$a$};
+\node[left = 0.12cm of $(origo)!0.5!(y)$]{$b$};
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.5]
+\draw [->](0, -0.8)--(0, 1.4);
+\draw [->](-0.8, 0)--(2, 0);
+\draw [-Stealth] (0, 0)--(1, 1);
+\draw (0, 0) -- (0.75, 0) arc (0:45:0.75cm);
+\draw (0.45, 0.18) node{$\varphi$};
+\draw (0.5, 0.7) node{$r$};
+\end{tikzpicture}
+
+Trigonometrikus alak: $r(\cos \varphi + i \sin \varphi)$\\
+Exponenciális alak: $r e^2 \varphi$
+
+\textbf{Algebra alaptétele:} minden legalább elsőfokú komplex együtthatós polinomnak van komplex gyöke.
+
+\textbf{2n. komplex egységgyökök:} $x^{2n}-1$ gyökei.
+
+\begin{tikzpicture}
+\draw [->](0, -2)--(0, 2);
+\draw [->](-2, 0)--(2, 0);
+\draw (0,0) circle [radius=1.5];
+\fill (0, 1.5) circle(2pt) node[above right=0cm and 0cm]{$e^{\frac{2 \pi i \cdot 2}{2n}}$};
+\fill (0, -1.5) circle(2pt);
+\fill (1.5, 0) circle(2pt) node[above right=0cm and 0cm]{$e^{\frac{2 \pi i \cdot 0}{2n}}$};
+\fill (-1.5, 0) circle(2pt) node[above left=0cm and 0cm]{$e^{\frac{2 \pi i \cdot 4}{2n}}$};
+\draw (0, 0)--(1.06, 1.06);
+\draw (0, 0)--(1.06, -1.06);
+\draw (0, 0)--(-1.06, 1.06);
+\draw (0, 0)--(-1.06, -1.06);
+\fill (1.06, 1.06) circle(2pt) node[above right=0cm and 0cm]{$e^{\frac{2 \pi i \cdot 1}{2n}}$};
+\fill (1.06, -1.06) circle(2pt) node[below right=0cm and 0cm]{$e^{\frac{2 \pi i \cdot (2n-1)}{2n}}$};
+\fill (-1.06, 1.06) circle(2pt) node[above left=0cm and 0cm]{$e^{\frac{2 \pi i \cdot 3}{2n}}$};
+\fill (-1.06, -1.06) circle(2pt) node[below left=0cm and 0cm]{$\cdots$};
+\end{tikzpicture}
+
+Jelölés: $\omega_{j, 2n} = e^{\frac{2 \pi i j}{2n}}$
+
+\subsubsection*{Algoritmus}
+\textbf{1.} $A(x)$ és $B(x)$ helyettesítési értékei a $2n.$ komplex egységgyökön oszd meg és uralkodj algoritmussal lássuk $A(x)$-nél a számítást.
+Trükk: $A(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_{n-1} x^{n-1}$.
+
+Elkészítünk két feleakkora fokszámú polinomot:
+\begin{itemize}
+    \item $A_{\text{páros}} = a_0 + a_2 x + a_4 x^2 + \cdots + a_{2n-2} x^{\frac{n-2}{2}}$
+    \item $A_{\text{páratlan}} = a_1 + a_3 x + a_5 x^2 + \cdots + a_{n-1} x^{\frac{n-2}{2}}$
+\end{itemize}
+
+Ekkor $A(x) = A_{\text{páros}}(x^2) + A_{\text{páratlan}}(x^2)$.
+
+\textbf{Észrevétel:} egy $2n.$ komplex egységgyök négyzete egy $n.$ komplex egységgyök: $\left(e^{\frac{2 \pi i j}{2n}}\right)^2 = e^{\frac{2 \pi i j}{n}}$.
+
+Így $A(x)$ helyettesítési értékének kiszámítását a $2n.$ komplex egységgyökön visszavezettük két feleakkora polinom helyettesítési értékének kiszámítására az $n.$ komplex egységgyökön.
+(Persze itt van még némi munka, de az $\mathcal{O}(n)$ költségű.)
+
+\textbf{Összköltség:} $T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n) \rightarrow T(n) = \mathcal{O}(n \log n)$.
+
+\textbf{2.} $C(x) = A(x) \cdot B(x)$ helyettesítési értékeinek kiszámítása a $2n.$ komplex egységgyökön $\rightarrow \mathcal{O}(n)$.
+
+\textbf{3.} $C(x)$ helyettesítési értékeiből a $2n.$ komplex egységgyökökön kiszámítjuk $C(x)$ együtthatóit (gyors Fourier-transzformált).
+
+\textbf{Általánosabban:} legyen $C(x)$ legfeljebb $(2n-1)$-edfokú polinom, amelynek ismertek a helyettesítési értéki a $2n.$ komplex egységgyökökön.
+
+Vezessük be a következő $D(x)$ polinomot:
+$D(x) = d_0 + d_1 x + d_2 x^2 + \cdots + d_{2n-1} x^{2n-1}$ ahol $d_S = C(\omega_{S,2n})$ $(S = 0, 1, \cdots, 2n-1)$.
+
+\fbox{Ekkor $D(\omega_{t, 2n}) = 2n c_{2n-t}$} (ezt még bizonyítani kell)
+
+Alkalmazva az algoritmus oszd meg és uralkodj algoritmusát, a $D(x)$ polinomra a $D(\omega_{t, 2n})$ helyettesítési értékek, így $C(x)$ együtthatói $\mathcal{O}(n \log n)$ lépésben kiszámíthatók $\rightarrow O(n \log n)$.
+

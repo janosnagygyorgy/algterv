@@ -1,0 +1,98 @@
+\section{előadás (2025. október 21.)}
+\subsection{Dinamikus programozás}
+
+Adottak az $A_1, A_2, \cdots, A_n$ mátrixok, ahol $A_1$ egy $q_0 \times q_1$ dimenziós, az $A_2$ egy $q_1 \times q_2$ dimenziós, $\cdots$, $A_n$ pedig egy $q_{n-1} \times q_n$ dimenziós mátrix.
+Ekkor képezhető az $A_1 A_2 \cdots A_n$ szorzat.
+A szorzatmátrix a mátrixszorzás asszociativitása miatt nem függ a zárójelezéstől.
+Viszont az, hogy a szorzat kiszámítása hány elemi műveletet igényel, már általában függ a zárójelezéstől.
+Az egyszerűség kedvéért tegyük fel, hogy a mátrixok szorzását a hagyományos módon végezzük: $A_{p \times q} \times A_{q \times r} = A_{p \times r}$.
+
+Az elemi lépések most legyenek csupán az elemi szorzások.
+Ekkor $p \times q \times r$ az elemi szorzások száma a szorzatmátrix kiszámításánál.
+
+\textbf{Példa}\\
+három mátrix:
+\begin{flalign*}
+    A_1 &\rightarrow 50 \times 5 &&\\
+    A_2 &\rightarrow 5 \times 20 &&\\
+    A_3 &\rightarrow 20 \times 200 &&\\
+\end{flalign*}
+
+Kétféleképpen számolhatunk:
+\begin{itemize}
+    \item $(A_1 A_2) A_3$
+    \item $A_1 (A_2 A_3)$
+\end{itemize}
+
+Általában: határozzuk meg azt a zárójelezést, amelynek mentén a szorzat számítása a lehető legkevesebb elemi szorzással jár.
+
+A szorzat kiszámítása nem része a feladatnak.
+
+Az algoritmus költségét $n$ függvényében keressük, a dimenziók nem számítanak.
+
+Első gondolat: nézzük meg az összes zárójelezést és válasszuk ki a legkedvezőbbet.
+
+Rossz hír: a mátrixot $\Omega \left(\frac{4^n}{n^{\frac{3}{2}}}\right)$ módon lehet zárójelezni.
+
+$\Omega \left(\frac{4^n}{n^{\frac{3}{2}}}\right) \rightarrow$ Catalan számok.
+
+[Számos példa van.
+Egy mozi pénztáránál $2n$ ember áll sorba, $n$ embernél egy ezres, a többi $n$ embernél egy kétezres van.
+A mozijegy ezer forint.
+A pénztárban nyitáskor üres a kassza.
+Hányféleképpen állhatnak sorba az emberek, hogy mindenkinek lehessen visszaadni.]
+
+\subsubsection*{Polinomiális algoritmus}
+Tfh. az $A_1 A_2 \cdots A_n$ szorzatot akarjuk kiszámítani.
+Zárójelezés $\Leftrightarrow$ szorzások sorrendje.\\
+Pl. $(A_1 A_2)(A_3(A_4 A_5))$
+\begin{enumerate}
+    \item Első szorzás $A_1 A_2$ vagy $A_4 A_5$.
+    \item Második szorzás $(A_3(A_4 A_5))$ vagy $(A_1 A_2)$. 
+    \item Harmadik szorzás $A_3(A_4 A_5)$
+    \item Negyedik (utolsó) szorzás $(A_1 A_2)(A_3(A_4 A_5))$
+\end{enumerate}
+
+A zárójelezés nem feltétlenül határozza meg egyértelműen a szorzások sorrendjét, de egyértelműen meghatározza az elemi szorzások számát.
+
+\subsubsection*{Dinamikus programozás algoritmus tervezése}
+\textbf{1.} Részproblémák meghatározása\\
+$R[i, j] \rightarrow$ az $A_i A_{i+1} \cdots A_j$ szorzat optimális zárójelezésének meghatározása
+
+\textbf{2.} Keressünk kapcsolatot a részproblémák optimális megoldása és a részproblémák optimális megoldása között.\\
+Tegyük fel, hogy megvan $A_i A_{i+1} \cdots A_j$ optimális zárójelezése:
+$\underbrace{(A_1 A_{i+1} \cdots A_k)}_{\text{ezek is zárójelezve vannak}} \underbrace{(A_{k+1} \cdots A_{j-1} A_j)}_{\text{ezek is}}$
+
+\textbf{Állítás}\\
+Az optimális zárójelezés $A_i$-től $A_k$-ig terjedő része, illetve a $A_{k+1}$-től $A_j$-ig terjedő része optimális megoldása $R[i,k]$-nak és $R[k+1, j]$-nek.
+
+\textbf{Bizonyítás}\\
+Ha lenne pl. $A_1 A_{i+1} \cdots A_k$-nak a fentinél kevesebb elemi szorzást használó kiszámítása, erre cserélve $A_{k+1} \cdots A_{j-1} A_j$ optimális zárójelezésében az $A_i \cdots A_k$ részt, egy az "optimálisnál" kevesebb elemi szorzást használó zárójelezéshez jutnánk $\rightarrow$ \textbf{ellentmondás}.
+
+\textbf{3.} Aprópénzre váltjuk (2.)-t: rekurzió\\
+Jelölje $l[i, j]$ az $R[i, j]$ optimális megoldásában az elemi szorzások számát.
+
+Alapeset:
+\begin{flalign*}
+    &l[i, i] = 0 &&\\
+    &l[i, i+1] = q_{i-1} q_i q_{i+1} &&
+\end{flalign*}
+Általában: $l[i, j] = l[i, k] + l[k+1, j] + q_{i-1} q_k q_j$
+
+"Ne akadjunk fenn" $\rightarrow$ honnan tudjuk $k$-t?
+Nem tudjuk, de $k$ biztosan $i, i+1, \cdots, j-1$ közül valamelyik.
+Piszkos trükk: vizsgáljuk meg az összes lehetőséget, és válasszuk $k$-nak a legkisebb értéket adót.
+
+$l[i, j] = \underset{i \leq j \leq j-1}{min} \{ l[i, k] + l[k+1, j] + q_{i-1} q_k q_j \}$
+
+\textbf{4.} Számolás (3.) mentén\\
+\begin{tabular}{l l l}
+    $l[i, j] =$ & \raisebox{-.5\height}{\includegraphics[height=4cm]{ea/img/ea07_step4}} & $n \times n$-es táblázat \\
+\end{tabular}
+
+Költség: $\mathcal{O}(n^2)$ cella, cellánként $\mathcal{O}(n)$ számítás $\rightarrow \mathcal{O}(n^3)$
+
+\textbf{5.} Optimális zárójelezés\\
+Minden $l[i, j]$-nél megjegyezzük a minimumot adó $k$-t $\rightarrow$ backtracking a jobb felső sarokból.
+
+

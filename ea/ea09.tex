@@ -1,0 +1,162 @@
+\section{előadás (2025. november 11.)}
+\subsection{Optimális szekvenciaillesztés}
+(Levenshtein távolság)
+
+Pozíciók:
+\begin{flalign*}
+    &X = (x_1, x_2, \cdots, x_m) \rightsquigarrow \{1, 2, \cdots, m\} &&\\
+    &Y = (y_1, y_2, \cdots, y_n) \rightsquigarrow \{1, 2, \cdots, n\} &&
+\end{flalign*}
+
+Egy olyan $M$ párosítást (pontosabban szekvenciaillesztést) keresünk $\{1, 2, \cdots, m\}$ és $\{1, 2, \cdots, n\}$ között, melyre a következő mennyiség minimális:
+\begin{itemize}
+    \item egyrészt annyiszor egy $g>0$ valós számot, ahány pozíció nem szerepel $M$-ben
+    \item másrészt ha $(i, j) \subseteq M$, akkor egy $c[x_i, y_j] \geq 0$ valós számot
+\end{itemize}
+
+\subsubsection*{DP algoritmus}
+\textbf{1. Részproblémák}\\
+$R[i, j] \rightarrow$ optimális szekvenciaillesztés meghatározása az $X_i = (x_1, x_2, \cdots, x_i)$ és $Y_j = (y_1, y_2, \cdots, y_j)$ prefixek között.
+
+\textbf{2. Optimális részstruktúra tulajdonság}\\
+\textbf{Észrevétel}\\
+Legyen $M$ szekvenciaillesztés (akármilyen) $X_i$ és $Y_j$ között.
+\setulcolor{black}
+Ekkor három eset lehet \ul{csak}:
+\begin{enumerate}
+    \item $(i, j) \in M$
+    \item $i$ nem szerepel $M$-ben első tagként
+    \item $j$ nem szerepel $M$-ben második tagként
+\end{enumerate}
+
+Ami hiányzik: $j$ szerepel második tagként, $i$ nem szerepel első tagként.
+$(i, j) \notin M$.\\
+Ám ekkor\\
+\begin{tikzpicture}
+\node(t1){$1$};
+\node(t2)[right = 0.4cm of t1]{$2$};
+\node(t3)[right = 0.4cm of t2]{$3$};
+\node(b1)[below = 0.4cm of t1]{$1$};
+\node(b2)[right = 0.4cm of b1]{$2$};
+\node(b3)[right = 0.4cm of b2]{$3$};
+
+\node(cdots)[right = 0.5cm of b3]{$\cdots$};
+\node(ti)[right = 1cm of t3]{$i$};
+\node(bj)[right = 0.5cm of cdots]{$j$};
+
+\draw (t3) -- (bj);
+\draw (b3) -- (ti);
+
+\node[above right = 0cm and 0.7cm of bj]{$M$};
+\end{tikzpicture}\\
+ami nem szekvenciaillesztés.
+
+\textbf{Állítás}\\
+Legyen $M$ \ul{optimális} szekvenciaillesztés $X_i$ és $Y_j$ között.\\
+Ekkor
+\begin{enumerate}
+    \item Ha $(i, j) \in M$, akkor $M\setminus\{(i, j)\}$ optimális szekvenciaillesztés $X_{i-1}$ és $Y_{j-1}$ között.
+    \item Ha $i$ nem szerepel $M$-ben első tagként, akkor $M$ optimális szekvenciaillesztés $X_{i-1}$ és $Y_j$ között.
+    \item Ha $j$ nem szerepel $M$-ben második tagként, akkor $M$ optimális szekvenciaillesztés $X_i$ és $Y_{j-1}$ között.
+\end{enumerate}
+
+\textbf{Bizonyítás}\\
+\begin{enumerate}
+    \item Ha $X_{i-1}$ és $Y_{j-1}$ között lenne egy $M \setminus \{(i, j)\}$-nél kedvezőbb $M^*$ szekvenciaillesztés, akkor $M^* \cup \{(i, j)\}$ egy $M$-nél kedvezőbb szekvenciaillesztés lenne $X_i$ és $Y_j$ között, \textbf{ellentmondás}.
+    \item Ha lenne $X_{i-1}$ és $Y_{j}$ között egy egy $M$-nél kedvezőbb $M^*$ szekvenciaillesztés, akkor itt lenne $X_i$ és $Y_j$ között is.
+    \item Analóg (2.)-hoz.
+\end{enumerate}
+
+\textbf{3. Rekurzió}\\
+Jelölje $l[i,j]$ az $R[i,j]$ megoldásának "értékét".
+
+\textbf{"Alapeset"}\\
+Az egyik (vagy mindkettő) karaktersorozat üres
+\begin{flalign*}
+    &l[i,0] = i - g &&\\
+    &l[0,j] = j + g &&
+\end{flalign*}
+($M = \emptyset$ az egyetlen párosítás)
+
+\textbf{"Általában"}\\
+\begin{flalign*}
+    &(A) \rightarrow l[i,j] = l[i-1, j-1] + c[x_i, y_j] &&\\
+    &(B) \rightarrow l[i,j] = l[i-1, j] + g &&\\
+    &(C) \rightarrow l[i,j] = l[i, j-1] + g &&
+\end{flalign*}
+
+Sajnos nem tudjuk, hogy $(A)$ és $(B)$ és $(C)$ közül melyik teljesül, így mindhármat megvizsgáljuk és a legkedvezőbbet választjuk.
+
+$
+l[i, j] = min
+\begin{cases}
+    l[i-1, j-1] + c[x_i, y_j]\\
+    l[i-1, j] + g\\
+    l[i, j-1] + g
+\end{cases}
+$
+
+[szakirodalomban sok helyen (bizonyítás nélkül) az áll, hogy ha $x_i = y_j$, akkor $l[i, j] = l[i-1, j-1]$ (feltéve, hogy $c["p", "q"] \geq 0$ mindig)]
+
+
+\textbf{4. Optimális megoldás értéke}\\
+Az $(m+1) \times (n+1)$-es $l[i,j]$ táblázatot töltjük ki fentről lefelé, soronként balról jobbra.
+
+\begin{tabular}{l l}
+    $l[i, j] =$ & \raisebox{-.5\height}{\includegraphics[width=6cm]{ea/img/ea09_matrix}} \\
+\end{tabular}
+
+Az első sorral kezdünk, az aktuális érték a három szomszédból számítódik (amiket már ismerünk) 
+
+Számítási bonyolultság: $\mathcal{O}(mn)$ cella, cellánként $\mathcal{O}(1)$ számítás $\rightarrow \mathcal{O}(mn)$.
+
+\textbf{5. Optimális megoldás}\\
+$\rightarrow$ optimális $M$
+
+$l[i,j]$ számításakor az $(A)$, $(B)$ és $(C)$ közül a legkedvezőbbet adót magát is feljegyezzük.
+
+\angledarrow{0}
+\angledarrow{-45}
+\angledarrow{-90}
+(vizuálisan)
+
+Ezeket tároljuk egy $k[i,j]$ táblázatban, amelynek elkészülte után a jobb alsó sarokból a nyilak mentén a "margóig" lépkedünk.
+
+Ha $k[i,j] = $ \angledarrow{135}, akkor $M = M \cup \{(i, j)\}$ az üres $M$-ből indulva.
+
+
+\subsection{Leghosszabb közös részsorozat}
+\begin{flalign*}
+    &X = (x_1, x_2, \cdots, x_m) &&\\
+    &Y = (y_1, y_2, \cdots, y_n) &&
+\end{flalign*}
+Egy leghosszabb olyan $Z = (z_1, z_2, \cdots, z_k)$-t keresünk, amely megkapható $X$-ből is és $Y$-ból is "néhány" karakter törlésével.
+
+Hasonló DP algoritmus működik itt is, mint az előbb.
+
+\fbox{\textbf{1.}} $R[i,j]$ $X_i$ és $Y_j$ egy leghosszabb közös részsorozatának meghatározása\\
+\fbox{\textbf{2.}} \textbf{Állítás}\\
+Legyen $Z_k = (z_1, z_2, \cdots, z_k)$ az $X_m = (x_1, x_2, \cdots, x_m)$ és $Y_n = (y_1, y_2, \cdots, y_n)$ egy leghosszabb közös részsorozata (LKR).
+
+\begin{enumerate}
+    \item Ha $x_m = y_n$, akkor $z_k = x_m = y_n$ ÉS $Z_{k-1}$ egy LKR $X_{m-1}$-hez és $Y_{n-1}$-hez.
+    \item Ha $x_m \neq z_k$, akkor $Z_{k}$ egy LKR $X_{m-1}$-hez és $Y_n$-hez.
+    \item Ha $y_n \neq z_k$, akkor $Z_{k}$ egy LKR $X_m$-hez és $Y_{n-1}$-hez.
+\end{enumerate}
+
+\fbox{\textbf{3.}}
+Legyen $l[i, j]$ az $R[i,j]$ optimális megoldásának értéke (hossza).
+\begin{flalign*}
+    &(A) \rightarrow l[i,j] = l[i-1, j-1] + 1 &&\\
+    &(B) \rightarrow l[i,j] = l[i-1, j] &&\\
+    &(C) \rightarrow l[i,j] = l[i, j-1] &&
+\end{flalign*}
+
+$
+l[i, j] = min
+\begin{cases}
+    0 & \text{ha $i=0$ vagy $j=0$ "elvarrás"}\\
+    l[i-1, j-1] + 1 & \text{ha $i,j \geq 1$ és $x_i = y_j$ $(A)$}\\
+    min \{l[i-1, j], l[i, j-1]\} & \text{ha $i,j \geq 1$ és $x_i \neq y_j$ $(B)$, $(C)$}\\
+\end{cases}
+$

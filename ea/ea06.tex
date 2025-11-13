@@ -1,0 +1,143 @@
+\section{előadás (2025. október 14.)}
+\subsection{Gyors Fourier transzformált}
+Legyen $C(x) = c_0 + c_1 x + \cdots + c_{2n-1} x^{2n-1}$.
+Tfh. ismerjük $C(x)$ helyettesítési értékeit az $\omega_{1, 2n}, \omega_{2, 2n}, \cdots, \omega_{2n, 2n}$ $2n$-edik komplex egységgyökökön.\\
+Kérdés: $c_0, c_1, \cdots, c_{2n-1}$.
+
+Bevezetünk egy $D(x) = d_0 + d_1 x + \cdots + d_{2n-1} x^{2n-1}$ polinomot, ahol $d_S = C(\omega_{S,2n})$ $(S = 0, 1, \cdots, 2n-1)$ (semmi pánik, $\omega_{0, 2n} = \omega_{2n, 2n}$).
+
+\textbf{Állítás:} $D(\omega_{j, 2n}) = 2n c_{2n-j}$ vagyis $c_{2n-j} = \frac{1}{2n} D(\omega_{j, 2n})$ $(j = 1, 2, \cdots, 2n)$.
+
+\textbf{Bizonyítás:}\\
+\begin{flalign*}
+    D(\omega_{j, 2n}) &= \overset{2n-1}{\underset{S=0}{\sum}} d_S \cdot \omega_{j, 2n}^{S} &&\\
+    &= \overset{2n-1}{\underset{S=0}{\sum}} C(\omega_{S, 2n}) \cdot \omega_{j, 2n}^{S} &&\\
+    &= \overset{2n-1}{\underset{S=0}{\sum}} \left( \overset{2n-1}{\underset{S=0}{\sum}} c_t \cdot \omega_{S, 2n}^{t} \right) \omega_{j, 2n}^{S}
+\end{flalign*}
+
+Kettős összegzés
+\begin{figure}[H]
+  \includegraphics[width=10cm]{ea/img/ea06_double_sum}
+\end{figure}
+"a sorrend felcserélhető"
+
+Kitérő (C. F. Gauss):
+\begin{flalign*}
+    1 + 2 + \cdots + 49 + 50 = \frac{50 \cdot 51}{2} &&\\
+    \underbrace{\frac{50}{51} + \frac{49}{51} + \cdots + \frac{2}{51} + \frac{1}{51}}_{50 \cdot 51}
+\end{flalign*}
+
+Visszatérve az eredeti gondolatmenethez:\\
+$\overset{2n-1}{\underset{S=0}{\sum}} \left( \overset{2n-1}{\underset{t=0}{\sum}} c_t + \omega_{S, 2n}^t \right) \omega_{j, 2n}^{S} = \overset{2n-1}{\underset{t=0}{\sum}} c_t \text{\fbox{$\overset{2n-1}{\underset{S=0}{\sum}} \omega_{S, 2n}^t \cdot \omega_{j, 2n}^S$}} \text{ ez könnyen számolható:}$
+
+\begin{flalign*}
+    \omega_{S, 2n}^t \cdot \omega_{j, 2n}^S &= (e^{2 \pi i \cdot \frac{S}{2n}})^t (e^{2 \pi i \cdot \frac{j}{2n}})^S &&\\
+    &= e^{2 \pi i \cdot \frac{S t}{2n}} \cdot e^{2 \pi i \cdot \frac{S j}{2n}} &&\\
+    &= e^{2 \pi i \cdot \frac{S t}{2n} + 2 \pi i \cdot \frac{S j}{2n}} &&\\
+    &= e^{\frac{(2 \pi i \cdot S t + 2 \pi i \cdot S j)}{2n}} &&\\
+    &= e^{\frac{S \cdot 2 \pi i (t + j)}{2n}} &&\\
+    &= \left(e^{\frac{2 \pi i (t + j)}{2n}}\right)^S &&\\
+    &= \omega_{t+j, 2n}^S
+\end{flalign*}
+
+Az egész így:\\
+$\overset{2n-1}{\underset{t=0}{\sum}} c_t \text{\fbox{$\overset{2n-1}{\underset{S=0}{\sum}} \omega_{t+j, 2n}^S$}}$
+
+Egy pillanatra bevezetve az $\omega = \omega_{t+j, 2n}$ jelölést $\overset{2n-1}{\underset{S=0}{\sum}} \omega^S = 1 + \omega + \omega^2 + \cdots + \omega^{2n-1}$.
+
+Vegyük észre (bizonyítsuk teljes indukcióval): $(\omega - 1)(1 + \omega + \omega^2 + \cdots + \omega^{2n-1}) = \omega^{2n} - 1$.
+
+Mivel $\omega = \omega_{t+j, 2n}$, egy $2n$-edik komplex egységgyök, ezért $\omega^{2n} - 1 = 0$.\\
+Ebből következik, hogy ha $\omega \neq 1$, akkor $1 + \omega + \omega^2 + \cdots + \omega^{2n-1} = 0$.\\
+Ha $\omega = 1$, akkor $1 + \omega + \omega^2 + \cdots + \omega^{2n+1} = 1 + 1 + \cdots + 1 = 2n$.\\
+Mikor lesz $\omega_{t+j, 2n} = 1$? Ha $t = 2n-j$!\\
+Valóban, $t + j$ többszöröse kell, hogy legyen $2n$-nek, azonban $1 \leq j \leq 2n$ és $0 \leq t \leq 2n-1$ miatt ez csak $t+j=2n$ esetén áll fenn.
+
+Így $\overset{2n-1}{\underset{t=0}{\sum}} c_t \underbrace{\overset{2n-1}{\underset{S=0}{\sum}} \omega_{t+j, 2n}^S}_{\text{csak $t=2n-j$ esetén $\neq 0$}} = c_{2n-j} \cdot 2n$.
+
+\subsubsection*{Nagy egészek szorzása}
+$A$, $B$ n db számjegyből áll (tízes számrendszerben felírva).\\
+Kérdés: $A \cdot B = ?$
+
+\textbf{Általános iskola}\\
+\ul{234} \cdot 425\\
+936\\
+\- 468\\
+\- 1170\\
+$\overline{99450}$\\
+$\mathcal{O}(n^2)$ "elemi" szorzás
+
+\textbf{Oszd meg és uralkodj trükk} (magunk is kitalálhatjuk):
+
+$A = A_1 \cdot 10^{\frac{n}{2}} + A_0$\\
+$B = B_1 \cdot 10^{\frac{n}{2}} + B_0$\\
+$A_1, A_0, B_1, B_0$ $\frac{n}{2}$ db számjegyből áll.
+
+$AB = (A_1 \cdot 10^{\frac{n}{2}} + A_0) (B_1 \cdot 10^{\frac{n}{2}} + B_0) = A_1 B_1 \cdot 10^n + (A_1 B_0 + A_0 B_1) \cdot 10^{\frac{n}{2}} + A_0 B_0$
+
+\textbf{Nyertünk valamit azzal}, hogy az eredeti feladatot négy feleakkora méretű feladatra redukáltuk?\\
+$T(n) = 4 \cdot T(\frac{n}{2}) \rightarrow T(n) = \Theta(n^{\log_2 4}) = \Theta(n^2)$ :( \\
+Azért ilyen olcsón nem várhatunk sokat!
+
+Viszont $A_0 B_0, A_0 B_1, A_1 B_0, A_1 B_1$ helyett igazából $A_0 B_0, A_0 B_1 + A_1 B_0, A_1 B_1$ számolandó.\\
+Piszkos trükk:
+$(A_1 + A_0)(B_1 + B_0)$ egy szorzás.\\
+Eredmény: $A_1 B_1 + \text{\fbox{$A_0 B_1 + A_1 B_0$}} + A_0 B_0$.\\
+Így $A_0 B_1 + A_1 B_0 = (A_1 + A_0)(B_1 B_0) - A_1 B_1 - A_0 B_0$
+
+Így a feladat visszavezethető csupán 3 feleakkora méretű feladatra.\\
+$T(n) = 3T \left(\frac{n}{2} \right) \rightarrow T(n) = \Theta(n^{\log_2 3})$ :)
+
+\subsection{Dinamikus programozás}
+Alapelv: itt is ugyanaz, mind az oszd meg és uralkodj algoritmusoknál.
+A feladatot (rekurzívan) visszavezetjük hasonló, csak kisebb méretű feladatok megoldására.
+
+Egy tipikus oszd meg és uralkodj algoritmusnál (összefésüléses rendezés):
+\begin{figure}[H]
+  \includegraphics[width=10cm]{ea/img/ea06_merge_sort}
+\end{figure}
+Független részproblémák
+
+Nem mindig ez a helyzet!\\
+Illusztráció:\\
+\begin{tikzpicture}
+    \node(node1_1) at (0,0) {$\binom{n}{k}$};
+    \node(node2_1) at (-1,-1) {$\binom{n-1}{k-1}$};
+    \node(node2_2) at (1,-1) {$\binom{n-1}{k}$};
+    \node(node3_1) at (-1.5,-2) {$\binom{n-2}{k-2}$};
+    \node(node3_2) at (-0.5,-2) {$\binom{n-2}{k-1}$};
+    \node(node3_3) at (0.5,-2) {$\binom{n-2}{k-1}$};
+    \node(node3_4) at (1.5,-2) {$\binom{n-2}{k}$};
+    \draw[-Latex] (node3_1.north) -- (node2_1.south);
+    \draw[-Latex] (node3_2.north) -- (node2_1.south);
+    \draw[-Latex] (node3_3.north) -- (node2_2.south);
+    \draw[-Latex] (node3_4.north) -- (node2_2.south);
+    \draw[-Latex] (node2_1.north) -- (node1_1.south);
+    \draw[-Latex] (node2_2.north) -- (node1_1.south);
+\end{tikzpicture}\\
+"Átfedő részproblémák"
+
+\textbf{Összefoglalva}
+\begin{itemize}
+    \item \textbf{Oszd meg és uralkodj} tipikusan fentről lefelé.
+    \item \textbf{Dinamikus programozás} tipikusan lentről felfelé és a részproblémák megoldását egy táblázatban jegyezzük fel (létezik fentről lefelé is $\rightarrow$ memoizálás).
+\end{itemize}
+
+\textbf{Mi mindenre jó?}\\
+Elhelyezünk egy sorban különböző címletű érméket, és két játékos felváltva elvehet egy érmét a sor valamelyik végéről.
+
+\begin{tikzpicture}[
+    roundnode/.style={circle, draw=black, minimum size=0.6cm, inner sep=0.5mm}
+]
+\node[roundnode](c1){$5$};
+\node[roundnode](c2)[right = 0.2cm of c1]{$100$};
+\node[roundnode](c3)[right = 0.2cm of c2]{$5$};
+\node[roundnode](c4)[right = 0.2cm of c3]{$20$};
+\node[roundnode](c5)[right = 0.2cm of c4]{$50$};
+\node[roundnode](c6)[right = 0.2cm of c5]{$200$};
+\node[roundnode](c7)[right = 0.2cm of c6]{$100$};
+\node[roundnode](c8)[right = 0.2cm of c7]{$50$};
+\node[roundnode](c9)[right = 0.2cm of c8]{$10$};
+\end{tikzpicture}
+
+Milyen stratégiát kövessen Aliz az elvett érmék összértékének maximalizálására, feltéve, hogy Robi is ugyanezt akarja maga számára?

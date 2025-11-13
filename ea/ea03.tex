@@ -1,0 +1,87 @@
+\section {előadás (2025. szeptember 23.)}
+\subsection{Stabil házasítás}
+Gale-Shapley algoritmus: arra optimalizált, hogy a fiúk a lehető legjobban járjanak. Most azt szeretnénk, hogy átlagosan mindenki a lehető legjobban járjon (pl. randiapp).\\
+\textbf{Állítás (pareto optimalitás):} nincs olyan teljes párosítás (nem stabil sem), amelynél minden fiú jobban jár, mint a Gale-Shapley algoritmus által szolgáltatott párosításnál.\\
+
+\subsubsection*{További optimalizálási változatok}
+\begin{itemize}
+    \item \textbf{Jelölés:} $r_f(l) \rightarrow$ hányadik az $l$ lány az $f$ fiú preferencialistáján
+    \item \textbf{Jelölés:} $r_l(f) \rightarrow$ hányadik az $f$ fiú az $l$ lány preferencialistáján
+\end{itemize}
+
+\begin{enumerate}
+    \item legyen M stabil párosítás és tekintsük minden $l$ lányra és $f$ fiúra, ahol $(f, l) \in M$ az $r_f(l)$ és $r_l(f)$ értékeket.
+    \item Keressük azt az M stabil párosítást, amelyre:
+    \begin{enumerate}
+        \item az $r_f(l)$ és $r_l(f)$ értékek közül a legnagyobb a lehető legkisebb (mindenki a lehető legjobban jár)
+        \item az $r_f(l)$ és $r_l(f)$ összege a lehető legnagyobb (mindenki a lehető legjobban jár)
+        \item az $r_f(l)$ értékek összegének és az $r_l(f)$ értékek összegének különbségének abszolútértéke a lehető legkisebb (kb. egyenlően jól jár mindkét nem)
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{Megjegyzés:} (a)-(b): polinom időben megoldható, (c): NP-nehéz
+
+\subsection{Algoritmustervezési módszerek}
+\begin{enumerate}
+    \item Oszd meg és uralkodj (pl. összefésüléses rendezés)
+    \item Randomizálás (pl. gyorsrendezés)
+    \item Dinamikus programozás (pl. Floyd-Warshall algoritmus)
+    \item Mohó algoritmusok (pl. Kruskal, Prim, Dijkstra algoritmus)
+    \item Közelítő (approximációs) algoritmusok (pl. utazó ügynök)
+\end{enumerate}
+
+\subsection{Oszd meg és uralkodj algoritmusok}
+Könyv: \url{konyv.pdf#page=8}
+\textbf{Séma:}
+\begin{enumerate}
+    \item A feladatot hasonló, csak méretű részfeladatokra bontjuk.
+    \item A részfeladatokat rekurzívan megoldjuk (ha a mérete elég kicsi, akkor közvetlenül oldjuk meg).
+    \item A részfeladatok megoldását összekombináljuk az eredeti feladat megoldásává 
+\end{enumerate}
+
+\subsection*{Algoritmus elemzése}
+\subsubsection*{Helyesség}
+\subsubsection*{Hatékonyság}
+\textbf{Legegyszerűbb algoritmusok}
+\begin{itemize}
+    \item $a >= 1$ részfeladat
+    \item ha $n$ az eredeti feladat mérete, akkor $n/b$ az összes részfeladat mérete, ahol $b > 1$
+    \item a harmadik fázis költsége $f(n) >= 0$
+    \item ha $f(n)$ jelöli az algoritmus költségét (lényeges lépések száma), akkor $T(n) = a \cdot T(n/b) + f(n)$
+    \item pl. összefésüléses rendezésnél $T(n) = 2T(n/b) + n$
+\end{itemize}
+
+Összehasonlítás más algoritmusok hatékonyságával: zárt képlet.
+Ilyen egyszerű rekurziókra kézzel levezethető zárt képlet.
+Az egyszerűség kedvéért tfh. $n=2^k$ kettő hatvány.\\
+"Önmagába helyettesítés":
+
+\begin{flalign*}
+T(n) &= n + \text{\fbox{$2T\left(\frac{n}{2}\right)$}} &&\\
+&= n + 2\left(\frac{n}{2} + 2T\left(\frac{\frac{n}{2}}{2}\right)\right) &&\\
+&= n + n + 2^2 T\left(\frac{n}{2^2}\right) &&\\
+&= 2n + 2^2 \text{\fbox{$T \left(\frac{n}{2^2}\right)$}} &&\\
+&= 2n + 2^2 \left(\frac{n}{2^2} + 2T\left(\frac{\frac{n}{2^2}}{2}\right)\right) &&\\
+&= 2n + n + 2^3 T \left(\frac{n}{2^3}\right) &&\\
+&= 3n + 2^3 T \left(\frac{n}{2^3}\right) &&\\
+&\vdots &&\\
+&= i n + 2^i T \left(\frac{n}{2^i}\right) &&\\
+&\vdots &&\\
+&= k n + 2^k T \left(\frac{n}{2^k}\right) &&\\
+&= k n + 2^k T \left(\frac{n}{1}\right) &&\\
+&= (1) = 0 \text{, hiszen az egyelemű tömbök rendezettek.}
+\end{flalign*}
+
+Így $T(n) = k = n$.
+De $n = 2^k \rightarrow k = \log_2 n$, ezért $T(n) = n \log_2 n$.
+Általánosítva (nem bizonyítjuk): mester tétel.
+\subsubsection*{Mester-tétel}
+Könyv: \url{konyv.pdf#page=10}\\
+Zárt formula $T(n) = a T\left(\frac{n}{b}\right) + f(n)$ formájú rekurziókhoz (nem fed le mindent).\\
+$\left[f(n) \text{-t hasonlítjuk össze $n^{\log_b a}$-val} \right]$.
+
+\begin{enumerate}
+    \item ha $f(n) = \mathcal{O}(n^{\log_b a - \mathcal{E}})$ valamilyen pozitív $\mathcal{E}$-nal, akkor $T(n) = \Theta(n^{log_b a})$
+    \item ha $f(n) = \Theta(n^{log_b a})$, akkor $T(n) = \Theta(n^{\log_b a} log n)$
+    \item ha $f(n) = \Omega(n^{\log_b a + \mathcal{E}})$ valamely pozitív $\mathcal{E}$-nal ÉS $a f(\frac{n}{b}) \leq c f(n)$ valamely $c < 1$ és n elég nagy esetén, akkor $T(n) = \Theta(f(n))$
+\end{enumerate}

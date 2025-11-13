@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage[a4paper, portrait, margin=2cm]{geometry}
+\usepackage[hungarian]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[numbered]{bookmark}
+\usepackage{hyperref}
+\usepackage[parfill]{parskip}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mwe}
+\usetikzlibrary{positioning, arrows.meta, calc, shapes.geometric, snakes}
+
+\makeatletter
+\renewcommand{\Hy@numberline}[1]{#1. }
+\makeatother
+
+\newcommand{\angledarrow}[1]{
+    \begin{tikzpicture}[scale=0.4]
+    \draw[->, rotate=#1] (0, 0) -- (1, 0);
+    \end{tikzpicture}
+}
+
+\begin{document}
+\include{ea/ea01}
+\clearpage
+\include{ea/ea02}
+\clearpage
+\include{ea/ea03}
+\clearpage
+\include{ea/ea04}
+\clearpage
+\include{ea/ea05}
+\clearpage
+\include{ea/ea06}
+\clearpage
+\include{ea/ea07}
+\clearpage
+\include{ea/ea08}
+\clearpage
+\include{ea/ea09}
+\clearpage
+\include{ea/ea10}
+\clearpage
+\include{ea/ea11}
+\clearpage
+\include{ea/ea12}
+\clearpage
+\include{ea/ea13}
+\end{document}

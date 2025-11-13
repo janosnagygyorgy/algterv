@@ -1,0 +1,88 @@
+\section {előadás (2025. szeptember 16.)}
+Könyv: \url{konyv.pdf#page=108}
+\subsubsection*{Ismétlés}
+\textbf{Gale-Shapley algoritmus: } tetszőleges preferencialisták esetén generál (egy) stabil párosítást.\\
+\textbf{Megjegyzés: } a stabil párosítások száma akár exponenciálisan nagy lehet (n-ben).\\
+\textbf{Megjegyzés: } időnként egész "egzotikus" stabil párosítások is előfordulnak, pl. az összes fiú/lány a preferencialistájának első/utolsó lányát/fiúját kapja.\\
+
+\subsubsection*{Optimalitás}
+
+Egy adott fiú és adott lány \textbf{szóba jönnek egymásnak}, ha van olyan stabil párosítás, amelyben ők egy párt alkotnak.\\
+Egy adott fiú és adott lány \textbf{lelki társa} egymásnak, ha minden stabil párosításban ők egy párt alkotnak.\\
+
+\textbf{Állítás}
+\begin{itemize}
+    \item \textbf{A: } az algoritmus minden fiúhoz a számára szóba jövő lányok közül a neki legjobban tetszőt párosítja.
+    \item \textbf{B: } algoritmus minden lányhoz a számára szóba jövő fiúk közül a neki legkevésbé tetszőt párosítja.
+\end{itemize}
+
+\textbf{Bizonyítás}\\
+\textbf{A)}
+
+Indirekt tegyük fel, hogy van olyan fiú, akihez a Gale-Shapley algoritmus a számára szóba jövő lányok közül nem a neki legjobban tetszőt párosítja.
+Ekkor ez a fiú valamelyik nap szerenádozik a számára szóba jövő lányok közül a neki legjobban tetszőnél, akitől kosarat kap.
+Tekintsük azt a napot, amikor egy ilyen szomorú esemény először fordul elő.
+Legyen a kosarat kapó fiú $f$ és a kosarat kapó lány $l$, és $f'$ az a fiú, aki miatt $f$ kosarat kapott.
+
+\textbf{Ekkor $l$-nek jobban tetszik $f'$, mint $f$.}
+Mivel az első olyan napon vagyunk, amikor egy fiút kikosaraz a számára szóba jövő lányok közül a neki legjobban tetsző, $f'$-t nem kosarazhatta még ki a számára szóba jövő lányok közül a neki legjobban tetsző $l*$.
+Egy $l*$ ben kehet $l$ előtt $f'$ preferencialistáján ($l*=l$ lehetséges).
+
+Ezek után tekintsünk egy olyan M stabil párosítást, amelyben $f$ és $l$ egy párt alkotnak.
+Ez különbözik a Gale-Shapley algoritmus által meghatározott párosítástól.
+Jelölje $l''$ az $f'$ M-beli párját. Mivel $l''$ szóba jön $f'$ számára, $l''$ nem lehet $l*$ előtt $f'$ preferencialistáján ($l''=l*$ lehetséges).
+
+\textbf{Konklúzió: } $f' \rightarrow (l, l*, l'')$, azaz $f'$-nek jobban tetszik $l$, mint $l''$
+
+\textbf{Illusztráció (M-ben a párok):}
+
+\fbox{\begin{tikzpicture}
+\node(f){f};
+\node(l)[right = 0.5cm of f]{l};
+\node(f')[below = 0.5cm of f]{f'};
+\node(l'')[below = 0.5cm of l]{l''};
+\draw (f) -- (l);
+\draw (f') -- (l'');
+\draw[dashed] (f') -- (l);
+\end{tikzpicture}}
+
+Az eredeti feltevésünk szerint $f'$ és $l$ instabilitás (M-re) $\rightarrow$ \textbf{ellentmondás}.
+
+\textbf{B)}
+
+Indirekt tegyük fel, hogy van olyan lány, akihez a Gale-Shapley algoritmus a számára szóba jövő fiúk közül nem a neki legkevésbé tetszőt párosítja.
+Legyen $l$ egy ilyen lány.
+Legyen M egy olyan stabil párosítás, amelyben $l$ párja $f$, kevésbé tetszik $l$-nek, mint a Gale-Shapley algoritmus szolgáltatta $f'$ párja.
+Legyen $f'$ M-beli párja $l'$.
+
+\textbf{Illusztráció (M-ben a párok):}
+
+\fbox{\begin{tikzpicture}
+\node(f){f};
+\node(l)[right = 0.5cm of f]{l};
+\node(f')[below = 0.5cm of f]{f'};
+\node(l')[below = 0.5cm of l]{l'};
+\draw (f) -- (l);
+\draw (f') -- (l');
+\end{tikzpicture}}
+
+Most a feltételünk szerint $l$-nek jobban tetszik $f'$, mint $f$.
+Másrészt a Gale-Shapley algoritmus $f'$-höz a szóba jövő lányok közül a neki legjobban tetszőt párosítja, következésképpen $f'$-nek jobban tetszik $l$ (Gale-Shapley-beli párja), mint $l'$ (M-beli párja).
+Egy $f'$ és $l$ instabilitás (M-re) $\rightarrow$ \textbf{ellentmondás}.
+
+\subsubsection*{Egyértelműség}
+Futtassuk le a Gale-Shapley algoritmust úgy, hogy a fiúk szerenádoznak $\rightarrow M_1$.\\
+Ezután futtassuk le úgy, hogy a lányok szerenádoznak $\rightarrow M_2$.
+
+$M_1$ az $M_2$ stabil párosítások.\\
+Ha $M_1 \neq M_2$, akkor van legalább két különböző stabil párosítás.\\
+Ha $M_1 = M_2$, akkor ez az egyetlen stabil párosítás.
+Mivel ez egyben fiú-optimális és fiú-pesszimális, valamint lány-optimális és lány-pesszimális, mindenki számára pontosan egy ellenkező nemű jön szóba.
+
+\subsubsection*{Stabil szobatárs probléma (unisex változat)}
+2n fiú van. Mindenkinek van egy preferencialistája a többiekről.
+2 ágyas szobákba szeretnénk beosztani őket.\\
+Instabilitás: $\left[f_i-f_j\right]$ és $\left[f_k-f_l\right]$\\
+$f_i$ szívesebbek lenne $f_k$-val egy szobában, mint $f_j$-vel.\\
+$f_k$ szívesebbek lenne $f_i$-vel egy szobában, mint $f_l$-lel.\\
+Nem feltétlenül van stabil párosítás.

@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[a4paper, portrait, margin=2cm]{geometry}
+\usepackage[hungarian]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[numbered]{bookmark}
+\usepackage{hyperref}
+\usepackage[parfill]{parskip}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{pgfplots}
+\usepackage{MnSymbol}
+\pgfplotsset{compat=1.11}
+\usetikzlibrary{positioning, arrows.meta, calc, shapes.geometric, snakes}
+
+\makeatletter
+\renewcommand{\Hy@numberline}[1]{#1. }
+\makeatother
+
+\newcommand{\angledarrow}[1]{
+    \begin{tikzpicture}[scale=0.4]
+    \draw[->, rotate=#1] (0, 0) -- (1, 0);
+    \end{tikzpicture}
+}
+
+\begin{document}
+\include{gy/gy01}
+\clearpage
+\include{gy/gy02}
+\clearpage
+\include{gy/gy03}
+\clearpage
+\include{gy/gy04}
+\clearpage
+\include{gy/gy05}
+\clearpage
+\include{gy/gy06}
+\clearpage
+\include{gy/gy07}
+\clearpage
+\include{gy/gy08}
+\clearpage
+\include{gy/gy09}
+\clearpage
+\include{gy/gy10}
+\clearpage
+\include{gy/gy11}
+\clearpage
+\include{gy/gy12}
+\clearpage
+\include{gy/gy13}
+\end{document}

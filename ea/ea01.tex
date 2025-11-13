@@ -1,0 +1,110 @@
+\section{előadás (2025. szeptember 9.)}
+\subsection{Stabil párosítás}
+Könyv: \url{konyv.pdf#page=105}
+
+\begin{itemize}
+    \item Van n fiú ($f_1, f_2, \cdots, f_n$)
+    \item és n lány ($l_1, l_2, \cdots, l_n$)
+    \item Minden fiúnak van egy preferencialistája a lányokról: $f_i \rightarrow (l_{i_1}, l_{i_2}, \cdots, l_{i_n})$
+    \item és minden lánynak van egy preferencialistája a fiúkról: $l_j \rightarrow (f_{j_1}, f_{j_2}, \cdots, f_{j_n})$.
+    \item A preferencialisták "teljesek" és "holtversenymentesek".
+\end{itemize}
+
+Pl.
+
+\fbox{\begin{tikzpicture}
+\node(A){András (C, D)};
+\node(B)[below = 0.2cm of A]{Béla (C, D)};
+\node(C)[right = 0.5cm of A]{Cili (B, A)};
+\node(D)[below = 0.2cm of C]{Dalma (A, B)};
+\draw (A) -- (C);
+\draw (B) -- (D);
+\end{tikzpicture}}
+
+Erre a párosításra Béla és Cili instabilitást jelent: jobban tetszenek egymásnak, mint amennyire a párosításbeli párjuk tetszik nekik.
+
+\textbf{Kérdés:} van-e olyan (teljes) párosítás, amelyekre nézve nincs instabilitási tényező?\\
+A példában igen:
+
+\fbox{
+\begin{tikzpicture}
+\node(A){András};
+\node(B)[below = 0.2cm of A]{Béla};
+\node(C)[right = 0.5cm of A]{Cili};
+\node(D)[below = 0.2cm of C]{Dalma};
+\draw (A) -- (D);
+\draw (B) -- (C);
+\end{tikzpicture}
+}
+
+\subsection*{Algoritmus tervezése}
+Teljes párosítás, instabilitás nélkül $\rightarrow$ stabil házasítás.\\
+\textbf{Kérdés (újra):} tetszőleges preferencialistához van-e stabil házasítás?
+Ha van, akkor hogyan található ilyen (gyorsan)?
+
+\subsubsection*{Naiv algoritmus}
+\begin{itemize}
+    \item Kiindulunk egy tetszőleges $M_{0}$ teljes párosításból.
+    \item Ha található instabilitást jelentő f fiú és l lány erre a párosításra, akkor cseréljük a "négyesben" a párokat $\rightarrow$ $M_{1}$ párosítás.
+    \item Ezt addig ismételjük, amíg található instabilitás.
+\end{itemize}
+
+\textbf{Pozitívum}: megállás után stabil házasításunk van.\\
+\textbf{Negatívum}: nem feltétlenül terminál az algoritmus.
+
+\subsubsection*{Közgazdasági Nobel-díjas algoritmus}
+Gale-Shapley algoritmus (1962).
+Ez egy házasítási rituálénak is felfogható, ami több napig tart.
+\begin{itemize}
+    \item Minden reggel a lányok kiállnak az erkélyükre és várják hogy a fiúk jöjjenek szerenádozni.
+    \item Minden fiú ahhoz a lányhoz megy szerenádozni, aki a legjobban tetszik neki azok közül, akiktől még nem kapott kosarat.
+    \item Ha valamelyik fiú már minden lánytól kosarat kapott, otthon marad másnap.
+    \item Ha egy lány erkélye alatt legalább egy fiú szerenádozik, akkor a lány a szerenádozói közül a neki legjobban tetszőnek azt mondja, hogy várja másnap is, a többinek meg azt, hogy ne jöjjenek többet mert semmiképp nem lesz a feleségük (kikosarazás).
+    \item Este azok a fiúk, akiket kikosaraztak, kihúzzák a kikosarazó lányt a preferencialistájukról.
+\end{itemize}
+
+\textbf{Megállási feltétel:} minden lány erkélye alatt LEGFELJEBB egy fiú szerenádozik.\\
+\textbf{Párosítás a terminálás után:} lány $\leftrightarrow$ ablaka alatt szerenádozó fiú.
+
+
+\subsection*{Algoritmus elemzése}
+\subsubsection*{Hatékonyság}
+\begin{itemize}
+    \item legrosszabb esetben hány napig tart (egyáltalán befejeződik-e véges sok lépésben)
+\end{itemize}
+
+\textbf{Állítás:} az algoritmus legfeljebb az $(n^{2}+1)$. napon befejeződik.\\
+\textbf{Bizonyítás:}
+Egy olyan nap, amikor az algoritmus nem fejeződik be, van olyan lány, akinek az erkélye alatt legalább két fiú szerenádozik, következésképpen van olyan fiú, aki kosarat kap és kihúz egy lányt a preferencialistájáról.
+Kezdetben a fiúk preferencialistájának összhossza $n^{2}$.
+Ha a megállás előtt ezekről minden nap legalább egy lány kihúzásra kerül, akkor az $(n^{2}+1)$. napon már nincs kit kihúzni.
+Következésképpen ekkorra az algoritmus biztosan befejeződik.
+
+\subsubsection*{Helyesség}
+\begin{itemize}
+    \item teljes párosítás
+    \item stabilitás
+\end{itemize}
+
+\textbf{Állítás:} az algoritmus teljes párosítást ad.\\
+\textbf{Bizonyítás:} Indirekt tegyük fel, hogy a párosítás nem teljes.
+Ekkor van olyan fiú, akinek nincs párja. Ez úgy lehetséges, hogy mindenkinél szerenádozott és mindenkitől kosarat kapott.
+Ezen kívül kell lenni olyan lánynak akinek nincs párja.
+Ez úgy lehetséges, hogy nála soha senki nem szerenádozott.
+
+\textbf{Állítás:} az algoritmus stabil párosítást ad.\\
+\textbf{Bizonyítás:} Indirekt tegyük fel, hogy létezik instabilitási tényező.
+Azaz f-nek jobban tetszik l' mint l és l'-nek jobban tetszik f mint f'.
+
+\fbox{\begin{tikzpicture}
+\node(f){f};
+\node(l)[right = 0.5cm of f]{l};
+\node(f')[below = 0.5cm of f]{f'};
+\node(l')[below = 0.5cm of l]{l'};
+\draw (f) -- (l);
+\draw (f') -- (l');
+\draw[dashed] (f) -- (l');
+\end{tikzpicture}}
+
+Az f előbb szerenádozott l'-nél, mint l-nél (és l'-nél kosarat kapott).
+Az l' a szerenádozói közül viszont a neki legjobban tetszőnek lesz végül a párja, ellentmondva annak, hogy l'-nek jobban tetszik f, mint f'.
