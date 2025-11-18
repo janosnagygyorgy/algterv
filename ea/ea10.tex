@@ -1,0 +1,90 @@
+\section{előadás (2025. november 18.)}
+\subsection{NP-nehéz  feladatok és DP}
+
+\subsubsection*{1. Részhalmaz-összeg}
+(NP-teljes eldöntési feladat)
+
+Adott $a_1, a_2, \cdots, a_n, B$ pozitív egészekhez létezik-e olyan $I \in \left\{ 1, 2, \cdots, n \right\}$, hogy $\underset{i \in I}{\sum} a_i = B$?
+
+\subsubsection*{2. Pénzváltás}
+Adott $a_1, a_2, \cdots, a_n, B$ pozitív egészekhez léteznek-e olyan $\alpha_1, \alpha_2, \cdots, \alpha_n$ nemnegatív egészek, hogy $\overset{n}{\underset{i = 1}{\sum}} \alpha_i a_i = B$?
+
+\textbf{Optimalizálási feladat}\\
+Ha a válasz igen, mi $\overset{n}{\underset{i = 1}{\sum}} \alpha_i$ minimális értéke?
+
+\textbf{"Boltban"}\\
+$B \rightarrow$ visszajáró pénz\\
+$a_1, a_2, \cdots, a_n \rightarrow$ rendelkezésre álló címletek (pl. érmék)
+
+A legkevesebb érmével akarjuk a $B$ összeget kifizetni.
+
+Az egyszerűség kedvéért tegyük fel, hogy a címletek között szerepel az 1, mondjuk $1 = c_1 < c_2 < c_3 < \cdots < c_n$.
+
+\textbf{Bolti algoritmus:} vegyük a legnagyobb olyan $c_i$-t, amelyre $c_i \leq B$, és adjunk belőle annyit, amennyit lehetséges.
+Ezután rekurzívan fizetjük ki a maradékot.
+
+Optimális megoldást ad az algoritmus?
+
+A tipikus (ahol a címletek: $1c, 2c, 5c, 10c, 20c, 50c$) boltokban igen.\\
+Sajnos nem minden címlethalmaznál "működik" ez: $1, 6, 10$.
+\begin{flalign*}
+    & 12 \rightarrow 10 + 1 + 1 \text{ algoritmus} &&\\
+    & 12 \rightarrow 6 + 6 \text{ optimális} &&
+\end{flalign*}
+Tetszőleges $c_1, c_2, \cdots, c_n$ címletekre ez egy NP-nehéz feladat.
+
+Meglepetés: polinom időben eldönthető, hogy adott $c_1, c_2, \cdots, c_n$ címletekre a bolti algoritmus optimális megoldást ad-e.
+
+\subsubsection*{3. Hátizsák feladat}
+Adottak az $a_1, a_2, \cdots, a_n, c_1, c_2, \cdots, c_n, B$ pozitív egész számok, határozzunk meg egy olyan $I \subseteq \left\{ 1, 2, \cdots, n \right\}$ indexhalmazt, amelyre $\underset{i \in I}{\sum} a_i \leq B$ és $\underset{i \in I}{\sum} c_i$ maximális.
+
+Mitől hátizsák feladat ez?
+Van $n$ tárgyunk $t_1, t_2, \cdots, t_n$.
+A $t_i$ tárgy súlya $b_i$, értéke $c_i$.
+Van egy hátizsákunk, amelynek (súly)kapacitása $B$.\\
+Mely tárgyakat tegyük a hátizsákba, hogy az összérték maximális legyen, a súlykorlátot nem túllépve?
+
+\subsubsection*{Összefüggések 1-2-3 között}
+\textbf{Részhalmaz-összeg és hátizsák feladat}\\
+Hogyan lehetne alkalmazni egy hátizsák feladatra adott algoritmust a részhalmaz-összeg feladat megoldására?
+(visszavezetés, rekurzió)
+
+Tekintsük a részhalmaz-összeg feladat egy példányát: $a_1, a_2, \cdots, a_n, B$
+
+Elkészítünk ehhez egy hátizsák feladat példányt:\\
+n tárgy, az $i$-edik súlya és értéke is $a_i$ \\
+a hátizsák kapacitása $B$
+
+Tegyük fel, hogy ennek a hátizsák feladatnak $I$ egy megoldása: $\underset{i \in I}{\sum} a_i \leq B$ és $\underset{i \in I}{\sum} c_i$ maximális
+
+Két eset van:\\
+$\rightarrow \underset{i \in I}{\sum} = B \rightarrow$ igen a részhalmaz-összegnél\\
+$\rightarrow \underset{i \in I}{\sum} < B \rightarrow$ nem (igen esetén $I$ nem lenne optimális megoldás)
+
+\textbf{Részhalmaz-összeg és pénzváltás}\\
+(eldöntési változat)
+
+\ul{Pénzváltás példány:}\\
+$a_1, a_2, \cdots, a_n, B$
+$a_1$-ből vegyünk $\left\lfloor \frac{B}{a_1} \right\rfloor$ példányt\\
+$a_2$-ből vegyünk $\left\lfloor \frac{B}{a_2} \right\rfloor$ példányt\\
+\vdots\\
+$a_n$-ből vegyünk $\left\lfloor \frac{B}{a_n} \right\rfloor$ példányt
+
+\ul{Részhalmaz-összeg példány:}\\
+$\underbrace{a_1, \cdots, a_1}_{\left\lfloor \frac{B}{a_1} \right\rfloor}, \underbrace{a_2, \cdots, a_2}_{\left\lfloor \frac{B}{a_2} \right\rfloor}, \cdots, \underbrace{a_n, \cdots, a_n}_{\left\lfloor \frac{B}{a_n} \right\rfloor}, B$
+
+Ha itt igen, akkor a pénzváltásnál is igen, ha nem, akkor ott is nem.
+
+\textbf{Probléma:} a részhalmaz-összeg példány mérete nem csak $n$-től, de $B$-től is függ, ez utóbbitól lineárisan.
+
+\textbf{Lineárisan:} ez elfogadhatatlan!
+Ami elfogadható lenne itt: $\Omega(\log B)$.
+
+Elérhető ez?
+IGEN!
+
+$a_1 \rightarrow \underbrace{a_1, 2 a_1, 4 a_1, 8 a_1, \cdots, 2^{\left\lfloor \log_2 B \right\rfloor} a_1}_{\text{\parbox{5.5cm}{\centering kettes számrendszerben gondolkodhatunk \\ $a_1, 2 a_1, 3 a_1, \cdots \left\lfloor \frac{B}{a_1} \right\rfloor a_1$ közül minden \\ felírható csupán ezeket használva}}}$
+
+Ugyanez $a_2, a_3, \cdots, a_n$ esetén.
+
