@@ -1,0 +1,61 @@
+\section{gyakorlat (2025. november 19.)}
+\subsection{Hátizsák feladat}
+\sethlcolor{orange}
+\textbf{Példa} \hl{(zh. feladat)}:\\
+\begin{tabular}{c|c|c|c|c|c|c|c|}
+\cline{2-8}
+i     & 1  & 2  & 3  & 4  & 5 & 6  & 7  \\ \cline{2-8} 
+$w_i$ & 4  & 5  & 3  & 1  & 1 & 4  & 3  \\ \cline{2-8} 
+$v_i$ & 40 & 60 & 10 & 10 & 3 & 20 & 60 \\ \cline{2-8} 
+\end{tabular}
+
+$W = 10$ (hátizsák kapacitása)
+
+Részfeladatok: az első néhány tárggyal kell megtölteni optimálisan kisebb hátizsákokat.
+
+Kitöltés menete:\\
+Az oszlop a hátizsák kapacitása, a sor a hátizsákba rakott érték.
+Minden sorhoz tartozik egy tárgy (az $i.$ sorhoz $t_i$ és $v_i$) egy \sethlcolor{red}\hl{súly}/\sethlcolor{yellow}\hl{érték} párral.
+Megnézzük milyen \sethlcolor{lime}\hl{érték} van a jelenlegi cellától eggyel fentebbi cellában.
+Visszalépünk abban a sorban \sethlcolor{red}\hl{súly} cellát.
+Amelyik cellához \sethlcolor{pink}\hl{jutottunk}, azt hozzáadjuk az \sethlcolor{yellow}\hl{értékhez}.
+Az összeg és a cella feletti \sethlcolor{lime}\hl{érték} közül a nagyobb lesz a cella tartalma.
+
+Előadásról:
+$
+h[i, j] = max
+\begin{cases}
+    v_i + h[i-1, j-w_i]\\
+    h[i-1, j]\\
+\end{cases}
+$
+
+Ha pl. az sorhoz tartozó tárgy súlya 4, akkor a 0, 1, 2, 3 indexű oszlopok csak másolódnak, mert nem tudunk 4-et visszalépni a felette lévő sorban.
+Azaz, 0, 1, 2, 3 kapacitású hátizsákba nem fér bele a 4 súlyú tárgy.
+Minden sorban azt nézzük, hogy a sorhoz tartozó tárgyat érdemes-e belerakni a hátizsákba.
+
+\sethlcolor{yellow}
+\begin{tabular}{ccccccccccccc}
+     & i\textbackslash{}j                             & 0                                              & 1                       & 2                       & 3                       & 4                       & 5                                               & 6                                               & 7                                               & 8                        & 9                              & 10                                               \\ \cline{3-13} 
+     & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}                          & \multicolumn{1}{c|}{0}                          & \multicolumn{1}{c|}{0}                          & \multicolumn{1}{c|}{0}   & \multicolumn{1}{c|}{0}         & \multicolumn{1}{c|}{0}                           \\ \cline{3-13} 
+4/40 & \multicolumn{1}{c|}{1}                         & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}0} & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{\sethlcolor{pink}\hl{40}} & \multicolumn{1}{c|}{40}                         & \multicolumn{1}{c|}{40}                         & \multicolumn{1}{c|}{40}                         & \multicolumn{1}{c|}{40}  & \multicolumn{1}{c|}{\sethlcolor{lime}\hl{40}}        & \multicolumn{1}{c|}{40}                          \\ \cline{3-13} 
+\sethlcolor{red}\hl{5}/\sethlcolor{yellow}\hl{60} & \multicolumn{1}{c|}{\fcolorbox{blue}{white}{2}} & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{40} & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}60} & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{60}  & \multicolumn{1}{c|}{max(\sethlcolor{lime}\hl{40}, (\sethlcolor{pink}\hl{40}+\sethlcolor{yellow}\hl{60}))=100} & \multicolumn{1}{c|}{100}                         \\ \cline{3-13} 
+3/10 & \multicolumn{1}{c|}{3}                         & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{40} & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}60} & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{70}  & \multicolumn{1}{c|}{100}       & \multicolumn{1}{c|}{100}                         \\ \cline{3-13} 
+1/10 & \multicolumn{1}{c|}{\fcolorbox{blue}{white}{4}} & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{40} & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}70} & \multicolumn{1}{c|}{70}                         & \multicolumn{1}{c|}{70}  & \multicolumn{1}{c|}{100}       & \multicolumn{1}{c|}{110}                         \\ \cline{3-13} 
+1/3  & \multicolumn{1}{c|}{\fcolorbox{blue}{white}{5}} & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{40} & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{70}                         & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}73} & \multicolumn{1}{c|}{73}  & \multicolumn{1}{c|}{100}       & \multicolumn{1}{c|}{110}                         \\ \cline{3-13} 
+4/20 & \multicolumn{1}{c|}{6}                         & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{40} & \multicolumn{1}{c|}{60}                         & \multicolumn{1}{c|}{70}                         & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}73} & \multicolumn{1}{c|}{73}  & \multicolumn{1}{c|}{100}       & \multicolumn{1}{c|}{110}                         \\ \cline{3-13} 
+3/60 & \multicolumn{1}{c|}{\fcolorbox{blue}{white}{7}} & \multicolumn{1}{c|}{0}                         & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{60} & \multicolumn{1}{c|}{70} & \multicolumn{1}{c|}{73}                         & \multicolumn{1}{c|}{73}                         & \multicolumn{1}{c|}{100}                        & \multicolumn{1}{c|}{120} & \multicolumn{1}{c|}{130}       & \multicolumn{1}{c|}{\cellcolor[HTML]{34CDF9}133} \\ \cline{3-13} 
+\end{tabular}
+
+Eredmény leolvasása:\\
+A jobb alsó sarokból indulunk szokás szerint.
+A 7. sorban még nőtt az érték, tehát a 7. tárgyra szükség van, ezt "beragasztjuk" a hátizsákba.
+Ekkor már beragaszottunk 3 kapacitásnyi tárgyat a 10 kapacitású hátizsákba.
+Az első 7 kapacitást kell még valahogy kitölteni.
+Ezért nézzük a 7. oszlopot és felfelé haladva a következő sort.
+Ez a cella az előző sorhoz képest nem javult, azaz a 6. tárgyra nincs szükség.
+Megyünk megint egy sorral fentebb, ugyanabban az oszlopban.
+Ez javított az őt megelőző sorhoz képest, ezért erre a tárgyra szükség van.
+Ezt ismételjük tovább.
+
+Optimális megoldás: $t_2, t_4, t_5, t_7$
