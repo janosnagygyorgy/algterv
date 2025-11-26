@@ -1,0 +1,96 @@
+\section{előadás (2025. november 25.)}
+\subsubsection*{Hátizsák feladat}
+Legyenek $t_1, t_2, \cdots, t_n$ tárgyak.
+Minden $t_i$ tárgynak van egy $w_i$ súlya és egy $v_i$ értéke.
+Adott egy hátizsák $W$ kapacitással.
+Válasszunk ki a tárgyak közül néhányat úgy, hogy a kiválasztott tárgyak összsúlya ne haladja meg a hátizsák $W$ kapacitását és az összértéke a lehető legnagyobb.
+
+Ismert, hogy ez egy NP-nehéz feladat.
+Ezzel együtt van egy különös tulajdonsága: bármely $\mathcal{E} > 0$ valós számhoz van olyan polinomiális algoritmus, amely által szolgáltatott megoldásban az összérték legalább $\frac{1}{1 + \mathcal{E}}$-szorosa az optimális összértéknek.
+(aprópénzre váltva legalább $99\%$-a, legalább $99,9\%$-a, legalább $99,99\%$-a, és így tovább)
+
+Hátizsák feladat input:
+$w_1, v_1, w_2, v_2, \cdots, w_n, v_n, W$ mind pozitív egészek.
+
+\textbf{DP algoritmus (általánosan nem polinomiális!)}\\
+\textbf{1. Részproblémák}\\
+$R[i,j] \rightarrow$ tárgyak $t_1, t_2, \cdots, t_i$, hátizsák kapacitás: $j$
+
+\textbf{2. Optimális részstruktúra tulajdonság}\\
+Legyen Opt egy optimális (maximális összértékű) megoldása $R[i,j]$-nek.
+
+Most $t_i \notin$ Opt  (Opt most egy tárgyhalmaz) esetén Opt optimális megoldása $R[i-1,j]$-nek.
+Valóban, ha lenne $R[i-1,j]$-nek Opt-nál nagyobb összértékű megoldása, az Opt-nál nagyobb összértékű megoldása lenne $R[i,j]$-nek is, \textbf{ellentmondás}.
+
+Másrészt $t_i \in Opt$ esetén Opt$\setminus \left\{t_i\right\}$ egy maximális összértékű megoldása $R[i-1,j-w_i]$-nek.
+Valóban, ha lenne $R[i-1, j-w_i]$-nek Opt$\setminus \left\{t_i\right\}$-nél nagyobb összértékű megoldása, akkor ezt kiegészítve $t_i$-vel, $R[i,j]$-nek egy Opt-nál nagyobb összértékű megoldását kapnánk, \textbf{ellentmondás}.
+
+\textbf{3. Rekurzió}\\
+Jelölje $h[i,j]$ az $R[i,j]$ optimális megoldásánál az összértéket.
+
+Nyilván $h[i,0]$ és $h[0,j]$ nulla.
+
+Különben, vagyik amikor $i, j \geq 1$, akkor 
+
+\fbox{\textbf{A}} ha $w_i > j$, akkor $t_i$ nem lehet benne az optimális megoldásban, így $h[i,j]=h[i-1,j]$.
+
+\fbox{\textbf{B}} ha viszont $w_i \leq j$, akkor $t_i$ vagy benne van az optimális megoldásban, vagy nincs, és nem is tudjuk melyik áll fenn a kettő közül.
+Így szokásos módon mindkét lehetőséget megvizsgáljuk, és a kedvezőbb lesz a befutó:
+
+$
+h[i, j] = max
+\begin{cases}
+    v_i + h[i-1, j-w_i] & \text{(benne van)}\\
+    h[i-1, j] & \text{(nincs benne)}\\
+\end{cases}
+$
+
+\textbf{4. Táblázat}\\
+Az $(n+1) \times (w+1)$-dimenziós $h[i,j]$ táblázatot töltjük ki (felülről lefelé)
+
+%TODO táblázat
+
+Oszlopok: $j = 0, 1, \cdots, W$
+
+\ul{Költség:}\\
+egy cella: $\mathcal{O}(1)$\\
+cellák száma: $\mathcal{O}(nW)$\\
+összesen: $\mathcal{O}(nW)$, nem polinomiális!
+
+A táblázatban az oszlopok száma $W+1$, ez $W$, mint input input méretében (ami $\log W$) exponenciálisan nagy.
+
+Megjegyzés: kis súlyok esetén az algoritmus polinomiális (pontosítva: $w_1 + w_2 + \cdots + w_n \leq W$ esetén a feladat triviális, itt nem ilyenekről van szó)
+
+\textbf{5. Optimális tárgyhalmaz}\\
+$h[i,j]$ számolásakor feljegyezzük, hogy $t_i$ beválasztása vagy kihagyása volt kedvezőbb, a jobb alsó sarkoból indulva ezek segítségével rekonstruálható egy optimális megoldás.
+
+\textbf{Lássunk ezek után egy alternatív megközelítést}\\
+Hátizsák feladat kicsit másképpen
+\begin{itemize}
+    \item input változatlan
+    \item "Célfüggvény" legalább V összértéket szeretnénk elérni az ehhez szükséges tárgyak minimális összsúlya mellett.
+\end{itemize}
+
+DP itt is működik (ezt talán mindenki érzi)
+
+\textbf{1. Részproblémák}
+$R[i,j]$ a $t_1, t_2, \cdots, t_i$ tárgyakból válaszhatunk és legalább $j$ összértéket akarunk elérni minimális összsúly mellett.
+
+Jelölje $h^*[i,j]$ a minimális összsúlyt.
+
+\fbox{\textbf{2.}}-\fbox{\textbf{3.}} nagyon hasonlít az előbbiekhez.
+
+\textbf{4. Táblázat}\\
+%TODO táblázat
+Hogyan használható ez a táblázat az "eredeti" hátizsák feladat megoldására (ahol $W$ a hátizsák kapacitása)?
+Az utolsó sorban balról jobbra haladva megkeressük az utolsó $\leq W$ értéket, ennek oszlopindexe lesz az elérhető maximális összsúly.
+
+\ul{Költség:}\\
+egy cella: $\mathcal{O}(1)$\\
+cellák száma: legyen $v^* = max v_i$\\
+sorok száma: $\mathcal{O}(n)$\\
+oszlopok száma: $\mathcal{O}(n v^*)$\\
+összesen: $\mathcal{O}(n^2 v^*)$, nem polinomiális!
+
+Azonban kis értékek esetén polinomiális!
+Pl. ha $v^*=(n^3)$
