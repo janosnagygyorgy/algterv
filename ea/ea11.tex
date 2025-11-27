@@ -48,7 +48,9 @@ $
 \textbf{4. Táblázat}\\
 Az $(n+1) \times (w+1)$-dimenziós $h[i,j]$ táblázatot töltjük ki (felülről lefelé)
 
-%TODO táblázat
+\begin{tabular}{l l}
+    $h[i, j] =$ & \raisebox{-.5\height}{\includegraphics[width=8cm]{ea/img/ea11_matrix1}} \\
+\end{tabular}
 
 Oszlopok: $j = 0, 1, \cdots, W$
 
@@ -73,7 +75,7 @@ Hátizsák feladat kicsit másképpen
 
 DP itt is működik (ezt talán mindenki érzi)
 
-\textbf{1. Részproblémák}
+\textbf{1. Részproblémák}\\
 $R[i,j]$ a $t_1, t_2, \cdots, t_i$ tárgyakból válaszhatunk és legalább $j$ összértéket akarunk elérni minimális összsúly mellett.
 
 Jelölje $h^*[i,j]$ a minimális összsúlyt.
@@ -81,7 +83,27 @@ Jelölje $h^*[i,j]$ a minimális összsúlyt.
 \fbox{\textbf{2.}}-\fbox{\textbf{3.}} nagyon hasonlít az előbbiekhez.
 
 \textbf{4. Táblázat}\\
-%TODO táblázat
+$h^*[i, j] =$
+\raisebox{-.5\height}{
+\begin{tikzpicture}
+\node(img) {\includegraphics[width=6cm]{ea/img/ea11_matrix2}};
+\node[above right=-0.5cm and -4.5cm of img]{$v_1 + v_2 + \cdots + v_i$};
+\node[above right=-0.5cm and -1.3cm of img]{$v_1 + v_2 + \cdots + v_n$};
+
+\node(arr1end) at (0.1, -0.5){};
+\node(arr2end) at (2.2, -2.1){};
+
+\node(wi) at (2.1, 0.2){$w_1 + w_2 + \cdots + w_i$};
+\node(wn) at (3, -2.8){$w_1 + w_2 + \cdots + w_n$};
+
+\draw[-Latex] (wi.south) -- (arr1end.center);
+\draw[-Latex] (wn.north) -- (arr2end.center);
+\end{tikzpicture}
+}
+
+
+Csak az "alsó" részt töltjük ki.
+
 Hogyan használható ez a táblázat az "eredeti" hátizsák feladat megoldására (ahol $W$ a hátizsák kapacitása)?
 Az utolsó sorban balról jobbra haladva megkeressük az utolsó $\leq W$ értéket, ennek oszlopindexe lesz az elérhető maximális összsúly.
 
