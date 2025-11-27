@@ -10,7 +10,7 @@ Mindkét esetben DP\\
 $X = (x_1, x_2, \cdots, x_m)$ és $Y = (y_1, y_2, \cdots, y_n)$ $\rightarrow \mathcal{O}(mn)$
 
 
-\subsubsection*{LKR (előadáson "vázlatosan" volt)}
+\subsubsection*{Leghosszabb közös részsorozat (LKR, előadáson "vázlatosan" volt)}
 \setulcolor{black}
 \textbf{Optimális részstruktúra tulajdonság}
 
@@ -119,12 +119,12 @@ A                          & \multicolumn{1}{c|}{9}  & \multicolumn{1}{c|}{0} & 
 \end{tabular}
 
 \textbf{LKR hossz:} 6\\
-\textbf{LKR:} {\color{blue} ABBCBC}\\
+\textbf{LKR:} {\color{blue} ABBCBC} (van más is!)\\
 Az előbbi $X$ és $Y$ Levenshtein távolsága.
 
 Itt még kell valami:
 \begin{flalign*}
     & g = 3 &&\\
-    & c["p", "q"] = 5 \text{(a csere 5 költségű)} &&\\
-    & c["p", "p"] = 0 \text{(a nem-csere 0 költségű)} &&
+    & c["p", "q"] = 5 \text{ (a csere 5 költségű)} &&\\
+    & c["p", "p"] = 0 \text{ (a nem-csere 0 költségű)} &&
 \end{flalign*}
