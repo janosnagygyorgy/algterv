@@ -1,5 +1,5 @@
 \section{gyakorlat (2025. október 1.)}
-\textbf{"Oszd meg és uralkodj"}\\
+\textbf{"Oszd meg és uralkodj"}
 \begin{enumerate}
     \item részproblémákra bontjuk
     \item a részproblémákat megoldjuk
@@ -13,16 +13,16 @@ Számoljuk meg, hány inverzió van a tömbben.
 \textbf{Naiv módszer:}\\
 Minden indexpárt ellenőrzünk: $O(n^2)$.
 
-\textbf{Oszd meg és uralkodj}
-(könyv: \url{konyv.pdf#page=8}):
+\textbf{Oszd meg és uralkodj:}\\
+(könyv: \url{../konyv.pdf#page=8})
 \begin{enumerate}
-    \item Részproblémákra bontjuk: keressük az inverziókat $A[1:\frac{n}{2}]$ és $A[\frac{n}{2}+1:n]$-ben külön
+    \item Részproblémákra bontjuk: külön keressük az inverziókat $A[1:\frac{n}{2}]$ és $A[\frac{n}{2}+1:n]$-ben
     \item A részproblémák megoldása (rekurzívan): ha a részprobléma 1 elemű, akkor nincs inverzió, adjunk vissza 0-t
     \item Válaszok egyesítése: keressük az összes inverziót.
     \begin{enumerate}
         \item $1 \leq i < j \leq \frac{n}{2} \rightarrow A[1: \frac{n}{2}]$ részprobléma
         \item $\frac{n}{2} + 1 \leq i < j \leq n \rightarrow A[\frac{n}{2} + 1: n]$ részprobléma
-        \item $1 \leq i \leq \frac{n}{2} < j \leq n \rightarrow ?$
+        \item $1 \leq i \leq \frac{n}{2} < j \leq n \rightarrow \; ?$
     \end{enumerate}
 \end{enumerate}
 
@@ -30,13 +30,12 @@ Minden indexpárt ellenőrzünk: $O(n^2)$.
 Ha rendezett a két résztömb, könnyebb a (c) esetet ellenőrizni.
 Két eset van:
 \begin{itemize}
-    \item $A[i] < A [j] \rightarrow$ nincs inverzió. Mivel rendezett a tömb, ezért minden $j \leq k \leq n$ k index se lesz inverzió.
-    \item $A[i] > A[j] \rightarrow$ inverzió. Mivel rendezettek a tömbök, ezért minden $i \leq l \leq \frac{n}{2}$ l index is inverzió lesz j-vel.
+    \item $A[i] < A [j] \rightarrow$ nincs inverzió. Mivel rendezett a tömb, ezért minden ($j \leq k \leq n$) $k$ index se lesz inverzió.
+    \item $A[i] > A[j] \rightarrow$ inverzió. Mivel rendezettek a tömbök, ezért minden ($i \leq l \leq \frac{n}{2}$) $l$ index is inverzió lesz j-vel.
 \end{itemize}
 
-\textbf{Végeredmény}\\
-A két részprobléma megoldásai + a köztük végzett ellenőrzés eredménye.
-Futási idő: $O(n \cdot \log n)$ mint a merge sort.
+\textbf{Végeredmény:} a két részprobléma megoldásai + a köztük végzett ellenőrzés eredménye.
+Futási idő: $\mathcal{O}(n \cdot \log n)$ mint a merge sort.
 
 \subsubsection*{Többségi elem keresése}
 Egy elem többségi elem egy $A[1:n]$ tömbben, ha $\frac{n}{2}$-nél többször fordul elő benne (pl. minimum 6/10, minimum 4/7, stb.).
@@ -67,7 +66,7 @@ Minden elemet megszámolunk: $O(n^2)$.
     \end{itemize}
 \end{enumerate}
 
-\textbf{Futási idő:} $O(n \cdot \log n)$
+\textbf{Futási idő:} $\mathcal{O}(n \log n)$
 
 \textbf{Tudunk-e erre a problémára hatékonyabb (lineáris) algoritmust?}
 Igen, de nem oszd meg és uralkodj.
@@ -88,8 +87,8 @@ Igen, de nem oszd meg és uralkodj.
 \node[right = 0.2cm of a10]{$A[1:n]$};
 \end{tikzpicture}
 
-Ha tudjuk, hogy x többségi elem $A[1:n]$ és $A[1] \neq A[2]$, akkor többségi elem $A[3:n]$-ben.
-$A[1:10]$, ha x többségi elem, akkor legalább 6-szor van jelen $A[3:10]$-ben.
+Ha tudjuk, hogy $x$ többségi elem $A[1:n]$ és $A[1] \neq A[2]$, akkor többségi elem $A[3:n]$-ben.
+$A[1:10]$, ha $x$ többségi elem, akkor legalább 6-szor van jelen $A[3:10]$-ben.
 
 \textbf{Ötlet:} rendezzük át az $A[1:n]$ tömböt úgy, hogy párokat kapjunk a tömb elején, amik nem azonos értékek.
 
@@ -106,8 +105,8 @@ $A[1:10]$, ha x többségi elem, akkor legalább 6-szor van jelen $A[3:10]$-ben.
 \node[squarenode](a8)[right = 0cm of a7]{};
 \node[squarenode](a9)[right = 0cm of a8]{};
 \node[squarenode](a10)[right = 0cm of a9]{};
-\draw[thick, decoration={brace, raise=0.05cm, mirror}, decorate] (a1.south west) -- (a5.south east);
-\draw[thick, decoration={brace, raise=0.05cm}, decorate] (a6.north west) -- (a10.north east);
+\draw[thick, decoration={brace, raise=0.05cm, mirror}, decorate] (a1.south west) -- (a4.south east);
+\draw[thick, decoration={brace, raise=0.05cm}, decorate] (a5.north west) -- (a10.north east);
 \node[below right = 0.2cm and -0.35cm of a1]{különböző elemek};
 \node[below right = 0.6cm and 0.5cm of a1]{párjai};
 \node[above = 0.2cm of a8]{minden elem ugyanaz};
@@ -138,7 +137,7 @@ $A[1:10]$, ha x többségi elem, akkor legalább 6-szor van jelen $A[3:10]$-ben.
 
 Tegyük fel, hogy $A[j]$-nél vagyunk, és $A[1:i]$ a párok sora, míg $A[i+1:j]$ homogén.
 Ekkor ha $A[j] = A[i+1]$, akkor a homogén részhez hozzávesszük $A[j]$-t.
-Ha viszont $A[j] \neq A[i+1]$, akkor megcseréljük $A[j]$-t $A[i+2]$-vel, és ezzel növeljük a párok számát (az első rész 2-vel hosszabb).
+Ha viszont $A[j] \neq A[i+1]$, akkor megcseréljük $A[j]$-t $A[i+2]$-vel, és ezzel növeljük a párok számát (az első rész 2-vel hosszabb lesz).
 Innentől a homogén rész az $A[i+3:j]$.
 A rendezés végén ha marad homogén rész, akkor az a többségi elem.
 

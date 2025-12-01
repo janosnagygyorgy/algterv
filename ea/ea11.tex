@@ -30,7 +30,7 @@ Jelölje $h[i,j]$ az $R[i,j]$ optimális megoldásánál az összértéket.
 
 Nyilván $h[i,0]$ és $h[0,j]$ nulla.
 
-Különben, vagyik amikor $i, j \geq 1$, akkor 
+Különben, vagyis amikor $i, j \geq 1$, akkor 
 
 \fbox{\textbf{A}} ha $w_i > j$, akkor $t_i$ nem lehet benne az optimális megoldásban, így $h[i,j]=h[i-1,j]$.
 
@@ -64,7 +64,7 @@ A táblázatban az oszlopok száma $W+1$, ez $W$, mint input input méretében (
 Megjegyzés: kis súlyok esetén az algoritmus polinomiális (pontosítva: $w_1 + w_2 + \cdots + w_n \leq W$ esetén a feladat triviális, itt nem ilyenekről van szó)
 
 \textbf{5. Optimális tárgyhalmaz}\\
-$h[i,j]$ számolásakor feljegyezzük, hogy $t_i$ beválasztása vagy kihagyása volt kedvezőbb, a jobb alsó sarkoból indulva ezek segítségével rekonstruálható egy optimális megoldás.
+$h[i,j]$ számolásakor feljegyezzük, hogy $t_i$ beválasztása vagy kihagyása volt kedvezőbb, a jobb alsó sarokból indulva ezek segítségével rekonstruálható egy optimális megoldás.
 
 \textbf{Lássunk ezek után egy alternatív megközelítést}\\
 Hátizsák feladat kicsit másképpen
@@ -76,7 +76,7 @@ Hátizsák feladat kicsit másképpen
 DP itt is működik (ezt talán mindenki érzi)
 
 \textbf{1. Részproblémák}\\
-$R[i,j]$ a $t_1, t_2, \cdots, t_i$ tárgyakból válaszhatunk és legalább $j$ összértéket akarunk elérni minimális összsúly mellett.
+$R[i,j]$ a $t_1, t_2, \cdots, t_i$ tárgyakból választhatunk és legalább $j$ összértéket akarunk elérni minimális összsúly mellett.
 
 Jelölje $h^*[i,j]$ a minimális összsúlyt.
 
@@ -115,4 +115,4 @@ oszlopok száma: $\mathcal{O}(n v^*)$\\
 összesen: $\mathcal{O}(n^2 v^*)$, nem polinomiális!
 
 Azonban kis értékek esetén polinomiális!
-Pl. ha $v^*=(n^3)$
+Pl. ha $v^*=\mathcal{O}(n^3)$

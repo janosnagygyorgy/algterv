@@ -1,14 +1,4 @@
 \section {gyakorlat (2025. szeptember 17.)}
-\textbf{Miért lesz ez mind stabil párosítás?}
-
-Ha a felső kockát választottuk, akkor $f_1$ párja a preferencialistáján az első lány, így $f_1$ nem lehet instabilitás fiú tagja.
-
-Ha az alsó kockát választottuk, akkor $f_1$ párja a preferencialistáján a második lány, így $f_1$ csak az $l_1$ lánnyal lehet instabilitásban.
-Azonban $f_1$ utolsó $l_1$ preferencialistáján, így akárki is $l_1$ párja, ő jobban tetszik $l_1$-nek, mint $f_1$.
-Így $f_1$ most sem lehet instabilitás fiú tagja.
-
-Ez a gondolatmenet minden fiúra alkalmazható, így mind a $2^n$ párosítás stabil.
-
 \subsubsection*{Stabil szobatárs probléma}
 Nem feltétlenül létezik stabil párosítás.
 
@@ -35,6 +25,7 @@ Mutassuk meg, hogy így teljes párosítást kapunk (nem triviális) ami ráadá
 Indirekt tegyük fel, hogy ez nem teljesül, következésképpen vannak olyan $f'$ és $f''$ különböző fiúk, hogy:
 
 $M_1:$
+\raisebox{-.5\height}{
 \begin{tikzpicture}
 \node(f'){$f'$};
 \node(l')[right = 0.5cm of f']{$l'$};
@@ -43,7 +34,9 @@ $M_1:$
 \draw (f') -- (l');
 \draw (f'') -- (l'');
 \end{tikzpicture}
+}
 és $M_2:$
+\raisebox{-.5\height}{
 \begin{tikzpicture}
 \node(f'){$f'$};
 \node(l')[right = 0.5cm of f']{$\hat{l'}$};
@@ -52,6 +45,7 @@ $M_1:$
 \draw (f') -- (l');
 \draw (f'') -- (l'');
 \end{tikzpicture}
+}
 
 és $JobbanTetszik_{f'}(l',\hat{l}') = JobbanTetszik_{f''}(l'',\hat{l}'')$
 Az általánosság megszorítása nélkül feltehetjük, hogy $JobbanTetszik_{f'}(l', l'') = l'$ és $JobbanTetszik_{f''}(l', \hat{l}'') = l''$.
@@ -64,10 +58,11 @@ Ha ez nem elég meggyőző: négy eset van:
     \item $JT_{f'}(l', \hat{l}') = \hat{l}'$ és $JT_{f''}(l'', \hat{l}'') = \hat{l}'' \rightarrow$ nem lehet 
 \end{enumerate}
 
-\textbf{HF. }
-Keressünk instabilitást $M_1$-ben vagy $M_2$-ben.
+\textbf{HF. } Keressünk instabilitást $M_1$-ben vagy $M_2$-ben.
 
-\textbf{Feladat.}
+\clearpage
+\textbf{Feladat}
+
 Hosszú Gale-Shapley algoritmus futás.
 Először adott 5 fiú - 5 lány.
 

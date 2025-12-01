@@ -65,7 +65,7 @@ Sziluett
 
 $(\overline{x}_1, \overline{y}_1, \overline{x}_2, \overline{y}_2, \cdots, \overline{y}_{k-1}, \overline{x}_k)$
 
-\textbf{Oszd meg és uralkodj algoritmus}\\
+\textbf{Oszd meg és uralkodj algoritmus}
 \begin{enumerate}
     \item Két feleakkora méretű részfeladat
     \begin{itemize}
@@ -84,7 +84,7 @@ Minden szakaszon a magasabban fekvő szakaszt választjuk a két sziluetten.
 
 Implementáljuk ezt ha tényleg minden részletében érteni szeretnénk.
 
-Költség: $T(n) = 2T(\frac{n}{2}) + \mathcal{O}(n) \rightarrow T(n) = \mathcal(O)(n \log n)$
+\textbf{Költség:} $T(n) = 2T(\frac{n}{2}) + \mathcal{O}(n) \rightarrow T(n) = \mathcal(O)(n \log n)$
 
 
 \subsection{Érmék egy sorban (tegnapi előadás)}
@@ -102,11 +102,12 @@ Költség: $T(n) = 2T(\frac{n}{2}) + \mathcal{O}(n) \rightarrow T(n) = \mathcal(
 \node[roundnode](c2n)[right = 0.2cm of c2n1]{$c_{2n}$};   
 \end{tikzpicture}
 
-Egy sorban $2n$ (nem feltétlenül páronként) különböző érmék vannak.
+Egy sorban $2n$ (nem feltétlenül páronként) különböző érme van.
 Két játékos felváltva elvesz a (megmaradt) érmék sorának valamelyik végéről egy érmét.
 Az győz, akinél az elvett érmék értékének összege nagyobb.
 
 Először is: döntetlen lehetséges.
+\raisebox{-.3\height}{
 \begin{tikzpicture}[
     roundnode/.style={circle, draw=black, minimum size=0.6cm, inner sep=0.5mm}
 ]
@@ -117,6 +118,7 @@ Először is: döntetlen lehetséges.
 \node[roundnode](c5)[right = 0.2cm of c4]{$1$};
 \node[roundnode](c6)[right = 0.2cm of c5]{$1$};
 \end{tikzpicture}
+}
 
 A nyerő stratégia a nem vesztő stratégia.
 
@@ -165,6 +167,7 @@ Ebben a játékban a kezdőnek van nyerő (nem vesztő) stratégiája!
 \end{tikzpicture}
 
 Kezdő (összesen 30):
+\raisebox{-.3\height}{
 \begin{tikzpicture}[
     roundnode/.style={circle, draw=black, minimum size=0.6cm, inner sep=0.5mm}
 ]
@@ -173,8 +176,10 @@ Kezdő (összesen 30):
 \node[roundnode](c3)[right = 0.2cm of c2]{$6$};
 \node[roundnode](c4)[right = 0.2cm of c3]{$9$};
 \end{tikzpicture}
+}
 
 Másik (összesen 28):
+\raisebox{-.3\height}{
 \begin{tikzpicture}[
     roundnode/.style={circle, draw=black, minimum size=0.6cm, inner sep=0.5mm}
 ]
@@ -183,6 +188,7 @@ Másik (összesen 28):
 \node[roundnode](c3)[right = 0.2cm of c2]{$8$};
 \node[roundnode](c4)[right = 0.2cm of c3]{$7$};
 \end{tikzpicture}
+}
 
 A kezdő játékos ki tudja kényszeríteni, hogy a másik csak a páros indexű $c_i$-ket és azt is hogy csak a páratlan indexű $c_i$-ket vegye el (az összeset).
 
@@ -268,15 +274,19 @@ Pl. a páros indexekre:
 \end{tikzpicture}
 
 
-Ezek után a nyerő stratégia:\\
-$S_{ps} := c_2 + c_4 + c_6 + \cdots + c_{2n}$\\
-$S_{plan} := c_1 + c_3 + c_5 + \cdots + c_{2n-1}$
+Ezek után a nyerő stratégia:
+\begin{flalign*}
+    & S_{ps} := c_2 + c_4 + c_6 + \cdots + c_{2n} &&\\
+    & S_{plan} := c_1 + c_3 + c_5 + \cdots + c_{2n-1} &&
+\end{flalign*}
 
 Ha $S_{ps} \leq S_{plan}$, akkor a kezdő mindig a páratlan indexű érméket vegye el, különben mindig a páros indexűeket.
 
-Példánkban:\\
-$S_{ps} = 8 + 7 + 8 + 7 = 30$\\
-$S_{plan} = 7 + 6 + 9 + 6 = 28$\\
+Példánkban:
+\begin{flalign*}
+    & S_{ps} = 8 + 7 + 8 + 7 = 30 &&\\
+    & S_{plan} = 7 + 6 + 9 + 6 = 28 &&
+\end{flalign*}
 A kezdőnek a páros indexű érméket kell elvenni.
 
 Optimális ez?

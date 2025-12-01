@@ -1,6 +1,6 @@
 \section{előadás (2025. szeptember 9.)}
 \subsection{Stabil párosítás}
-Könyv: \url{konyv.pdf#page=105}
+Könyv: \url{../konyv.pdf#page=105}
 
 \begin{itemize}
     \item Van n fiú ($f_1, f_2, \cdots, f_n$)
@@ -58,7 +58,7 @@ Ez egy házasítási rituálénak is felfogható, ami több napig tart.
 \begin{itemize}
     \item Minden reggel a lányok kiállnak az erkélyükre és várják hogy a fiúk jöjjenek szerenádozni.
     \item Minden fiú ahhoz a lányhoz megy szerenádozni, aki a legjobban tetszik neki azok közül, akiktől még nem kapott kosarat.
-    \item Ha valamelyik fiú már minden lánytól kosarat kapott, otthon marad másnap.
+    \item Ha valamelyik fiú már minden lánytól kosarat kapott, másnap otthon marad.
     \item Ha egy lány erkélye alatt legalább egy fiú szerenádozik, akkor a lány a szerenádozói közül a neki legjobban tetszőnek azt mondja, hogy várja másnap is, a többinek meg azt, hogy ne jöjjenek többet mert semmiképp nem lesz a feleségük (kikosarazás).
     \item Este azok a fiúk, akiket kikosaraztak, kihúzzák a kikosarazó lányt a preferencialistájukról.
 \end{itemize}
@@ -69,9 +69,7 @@ Ez egy házasítási rituálénak is felfogható, ami több napig tart.
 
 \subsection*{Algoritmus elemzése}
 \subsubsection*{Hatékonyság}
-\begin{itemize}
-    \item legrosszabb esetben hány napig tart (egyáltalán befejeződik-e véges sok lépésben)
-\end{itemize}
+Legrosszabb esetben hány napig tart (egyáltalán befejeződik-e véges sok lépésben)?
 
 \textbf{Állítás:} az algoritmus legfeljebb az $(n^{2}+1)$. napon befejeződik.\\
 \textbf{Bizonyítás:}
@@ -90,7 +88,7 @@ Következésképpen ekkorra az algoritmus biztosan befejeződik.
 \textbf{Bizonyítás:} Indirekt tegyük fel, hogy a párosítás nem teljes.
 Ekkor van olyan fiú, akinek nincs párja. Ez úgy lehetséges, hogy mindenkinél szerenádozott és mindenkitől kosarat kapott.
 Ezen kívül kell lenni olyan lánynak akinek nincs párja.
-Ez úgy lehetséges, hogy nála soha senki nem szerenádozott.
+Ez úgy lehetséges, hogy nála soha senki nem szerenádozott $\rightarrow$ \textbf{ellentmondás}.
 
 \textbf{Állítás:} az algoritmus stabil párosítást ad.\\
 \textbf{Bizonyítás:} Indirekt tegyük fel, hogy létezik instabilitási tényező.

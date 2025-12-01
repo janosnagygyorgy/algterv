@@ -57,9 +57,11 @@ Indirekt tfh. ez nem igaz, vagyis $z_h \neq x_i, y_j$.
 \node at (16.5, 0.4) {$Y_j$};
 \end{tikzpicture}
 
+\raisebox{-.2\height}{
 \begin{tikzpicture}[scale=0.3]
 \draw[fill=black] (0,0) rectangle ++(1,1);
 \end{tikzpicture}
+}
 -k $\rightarrow Z$
 
 Ám ekkor $Z$ biztos nem LKR $x_i$-hez és $Y_j$-hez, hiszen $Z$ végére írva az $x_i = y_j$ karaktert egy $Z$-nél hosszabb közös részsorozatát látjuk $X_i$-nek és $Y_j$-nek.
@@ -76,7 +78,7 @@ Ha most $Z"$ végére írjuk az $x_i = y_j$ karaktert, az egy $Z$-nél hosszabb 
 \textbf{Rekurzió}
 
 $
-l[i, j] = min
+l[i, j] =
 \begin{cases}
     0 & \text{ha $i=0$ vagy $j=0$}\\
     l[i-1, j-1] + 1 & \text{ha $i,j \geq 1$ és $x_i = y_j$}\\
@@ -94,8 +96,8 @@ $
 \textbf{Kitöltés menete:}\\
 Összehasonlítjuk a sorhoz és az oszlophoz tartozó két betűt.
 \begin{itemize}
-    \item Ha megegyeznek (rekurzív képlet 2. esete): az átlósan eggyel fentebb és vízszintesen előző elem + 1
-    \item Ha különböznek (rekurzív képlet 3. esete): a sorban előtte lévő elem és az oszlopban felette lévő elem közül a maximális (ha egyenlőek akkor a fölötte lévő)
+    \item Ha megegyeznek (rekurzív képlet 2. esete): az átlós (egy sorral fentebb és egy oszloppal előbb lévő) elem + 1
+    \item Ha különböznek (rekurzív képlet 3. esete): a sorban előtte lévő elem és az oszlopban felette lévő elem közül a maximális (megállapodás: ha egyenlőek akkor a fölötte lévő)
 \end{itemize}
 
 A nyilak mutatják, hogy az adott cellában lévő elemet honnan vettük.

@@ -1,17 +1,15 @@
 \section {előadás (2025. szeptember 23.)}
 \subsection{Stabil házasítás}
 Gale-Shapley algoritmus: arra optimalizált, hogy a fiúk a lehető legjobban járjanak. Most azt szeretnénk, hogy átlagosan mindenki a lehető legjobban járjon (pl. randiapp).\\
-\textbf{Állítás (pareto optimalitás):} nincs olyan teljes párosítás (nem stabil sem), amelynél minden fiú jobban jár, mint a Gale-Shapley algoritmus által szolgáltatott párosításnál.\\
+\textbf{Állítás (pareto optimalitás):} nincs olyan teljes párosítás (nem stabil sem), amelynél minden fiú jobban jár, mint a Gale-Shapley algoritmus által szolgáltatott párosításnál.
 
 \subsubsection*{További optimalizálási változatok}
-\begin{itemize}
-    \item \textbf{Jelölés:} $r_f(l) \rightarrow$ hányadik az $l$ lány az $f$ fiú preferencialistáján
-    \item \textbf{Jelölés:} $r_l(f) \rightarrow$ hányadik az $f$ fiú az $l$ lány preferencialistáján
-\end{itemize}
+\textbf{Jelölés:} $r_f(l) \rightarrow$ hányadik az $l$ lány az $f$ fiú preferencialistáján\\
+\textbf{Jelölés:} $r_l(f) \rightarrow$ hányadik az $f$ fiú az $l$ lány preferencialistáján
 
 \begin{enumerate}
-    \item legyen M stabil párosítás és tekintsük minden $l$ lányra és $f$ fiúra, ahol $(f, l) \in M$ az $r_f(l)$ és $r_l(f)$ értékeket.
-    \item Keressük azt az M stabil párosítást, amelyre:
+    \item legyen $M$ stabil párosítás és tekintsük minden $l$ lányra és $f$ fiúra, ahol $(f, l) \in M$ az $r_f(l)$ és $r_l(f)$ értékeket.
+    \item Keressük azt az $M$ stabil párosítást, amelyre:
     \begin{enumerate}
         \item az $r_f(l)$ és $r_l(f)$ értékek közül a legnagyobb a lehető legkisebb (mindenki a lehető legjobban jár)
         \item az $r_f(l)$ és $r_l(f)$ összege a lehető legnagyobb (mindenki a lehető legjobban jár)
@@ -31,7 +29,7 @@ Gale-Shapley algoritmus: arra optimalizált, hogy a fiúk a lehető legjobban j�
 \end{enumerate}
 
 \subsection{Oszd meg és uralkodj algoritmusok}
-Könyv: \url{konyv.pdf#page=8}
+Könyv: \url{../konyv.pdf#page=8}
 
 \textbf{Séma:}
 \begin{enumerate}
@@ -40,9 +38,12 @@ Könyv: \url{konyv.pdf#page=8}
     \item A részfeladatok megoldását összekombináljuk az eredeti feladat megoldásává 
 \end{enumerate}
 
-\subsection*{Algoritmus elemzése}
-\subsubsection*{Helyesség}
-\subsubsection*{Hatékonyság}
+\subsubsection*{Algoritmus elemzése}
+\begin{itemize}
+    \item helyesség
+    \item hatékonyság
+\end{itemize}
+
 \textbf{Legegyszerűbb algoritmusok}
 \begin{itemize}
     \item $a >= 1$ részfeladat
@@ -54,9 +55,9 @@ Könyv: \url{konyv.pdf#page=8}
 
 Összehasonlítás más algoritmusok hatékonyságával: zárt képlet.
 Ilyen egyszerű rekurziókra kézzel levezethető zárt képlet.
-Az egyszerűség kedvéért tfh. $n=2^k$ kettő hatvány.\\
-"Önmagába helyettesítés":
+Az egyszerűség kedvéért tfh. $n=2^k$ kettő hatvány.
 
+"Önmagába helyettesítés":
 \begin{flalign*}
 T(n) &= n + \text{\fbox{$2T\left(\frac{n}{2}\right)$}} &&\\
 &= n + 2\left(\frac{n}{2} + 2T\left(\frac{\frac{n}{2}}{2}\right)\right) &&\\
@@ -77,10 +78,11 @@ T(n) &= n + \text{\fbox{$2T\left(\frac{n}{2}\right)$}} &&\\
 De $n = 2^k \rightarrow k = \log_2 n$, ezért $T(n) = n \log_2 n$.
 Általánosítva (nem bizonyítjuk): mester tétel.
 \subsubsection*{Mester-tétel}
-Könyv: \url{konyv.pdf#page=10}\\
+Könyv: \url{../konyv.pdf#page=10}\\
 Zárt formula $T(n) = a T\left(\frac{n}{b}\right) + f(n)$ formájú rekurziókhoz (nem fed le mindent).\\
 $\left[f(n) \text{-t hasonlítjuk össze $n^{\log_b a}$-val} \right]$.
 
+3 eset:
 \begin{enumerate}
     \item ha $f(n) = \mathcal{O}(n^{\log_b a - \mathcal{E}})$ valamilyen pozitív $\mathcal{E}$-nal, akkor $T(n) = \Theta(n^{log_b a})$
     \item ha $f(n) = \Theta(n^{log_b a})$, akkor $T(n) = \Theta(n^{\log_b a} log n)$

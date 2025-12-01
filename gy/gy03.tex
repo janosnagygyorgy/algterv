@@ -53,7 +53,7 @@ Nem tudjuk előre, hogy (a), (b) és (c) közül melyik adja az optimumot, ezér
 \subsubsection*{Költség}
 $T(n) = \underbrace{2 T (\frac{n}{2})}_{\text{két rekurzív hívás}} + \underbrace{\Theta(n)}_{\text{\parbox{4.1cm}{\centering min $A[1:\frac{n}{2}]$-ben \\ max $A[\frac{n}{2}+1: n]$-ben \\ (a), (b), (c) "közül a legnagyobb"}}}$
 
-Ez egy összefésüléses rendezés rekurzió $\rightarrow T(n) = \Theta(n log n)$
+Ez egy összefésüléses rendezés rekurzió $\rightarrow T(n) = \Theta(n \log n)$
 
 \clearpage
 \textbf{Van hatékonyabb?} Nem meglepő módon igen:
@@ -101,7 +101,7 @@ $T(n) = T(\frac{n}{2}) + 1 \rightarrow T(n) = \Theta(\log n)$\\
 $T(n) = T(\frac{n}{2}) + n \rightarrow T(n) = \Theta(n)$
 
 \subsection{Mester-tétel}
-Könyv: \url{konyv.pdf#page=10}\\
+Könyv: \url{../konyv.pdf#page=10}\\
 $f(n) \leftrightarrow n^{\log_b a}$
 
 \begin{enumerate}

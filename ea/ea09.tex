@@ -155,7 +155,7 @@ Legyen $l[i, j]$ az $R[i,j]$ optimális megoldásának értéke (hossza).
 $
 l[i, j] = min
 \begin{cases}
-    0 & \text{ha $i=0$ vagy $j=0$ "elvarrás"}\\
+    0 & \text{ha $i=0$ vagy $j=0$ (rekurzió "elvarrása")}\\
     l[i-1, j-1] + 1 & \text{ha $i,j \geq 1$ és $x_i = y_j$ $(A)$}\\
     min \{l[i-1, j], l[i, j-1]\} & \text{ha $i,j \geq 1$ és $x_i \neq y_j$ $(B)$, $(C)$}\\
 \end{cases}

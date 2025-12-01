@@ -1,6 +1,7 @@
 \section{gyakorlat (2025. szeptember 10.)}
-\subsection{Naiv algoritmus (nem feltétlen termináló)}
-Könyv: \url{konyv.pdf#page=105}
+\subsection{Stabil párosítás}
+\subsubsection*{Naiv algoritmus (nem feltétlen termináló)}
+Könyv: \url{../konyv.pdf#page=105}
 
 \begin{tabular}{l l}
     $f_1 \rightarrow (l_2, l_1, l_3)$ & $l_1 \rightarrow (f_1, f_3, f_2)$ \\
@@ -10,7 +11,7 @@ Könyv: \url{konyv.pdf#page=105}
 
 \textbf{Algoritmus}
 \begin{enumerate}
-    \item Keressünk instabilitást a párosításban: egy fiúnak jobban tetszik egy másik lány ÉS aa lánynak jobban tetszik egy másik fiú.
+    \item Keressünk instabilitást a párosításban: egy fiúnak jobban tetszik egy másik lány ÉS a lánynak jobban tetszik egy másik fiú.
     \item Az (egyik) instabilitásbeli \ul{négyest} felcseréljük.
 \end{enumerate}
 
@@ -34,7 +35,7 @@ $M_4=\left\{(f_1, l_1), (f_2, l_2), (f_3, l_3)\right\} = M_0$\\
 Végtelen ciklus: $M_0, M_1, M_2, M_3, M_4=M_0, M_1, M_2, \cdots$
 
 
-\subsection{Gale-Shapley algoritmus}
+\subsubsection*{Gale-Shapley algoritmus}
 \sethlcolor{orange}
 \hl{(zh. feladat)}
 
@@ -69,7 +70,7 @@ Kihúzások száma: $n^2-n-(n-1)=(n-1)^2+1$
 
 \textbf{Maximum hány stabil párosítás lehetséges n fiú és n lány között?} Az összes teljes párosítás száma: $n!$.
 Gale-Shapley algoritmus: mindig van legalább 1.\\
-\textbf{HF. } ha minden lánynak ugyanaz a preferencialistája, akkor csak 1 létezik.
+\textbf{HF.} Ha minden lánynak ugyanaz a preferencialistája, akkor csak 1 létezik.
 Észrevétel: néha 1-nél több van.
 
 \begin{tikzpicture}
@@ -87,7 +88,7 @@ Gale-Shapley algoritmus: mindig van legalább 1.\\
 {\color{green} Stabil párosítás:} minden \textbf{lány} a preferencialistájának elsőjét kapja.
 
 \textbf{Meglepetés:}
-2n fiú és 2n lány van, akár $2^n$ párosítás is lehetséges.\\
+$2n$ fiú és $2n$ lány van, akár $2^n$ párosítás is lehetséges.\\
 \begin{tabular}{l l}
     $f_1 \rightarrow (l_1, l_2, \cdots)$ & $l_1 \rightarrow (\cdots, f_1)$ \\
     $f_2 \rightarrow (l_2, l_1, \cdots)$ & $l_2 \rightarrow (\cdots, f_2)$ \\
@@ -102,6 +103,7 @@ Gale-Shapley algoritmus: mindig van legalább 1.\\
 
 A sok-sok stabil párosítás:
 
+\raisebox{-.4\height}{
 \fbox{
 \begin{tikzpicture}
 \node(f1){$f_1$};
@@ -112,7 +114,9 @@ A sok-sok stabil párosítás:
 \draw (f2) -- (l2);
 \end{tikzpicture}
 }
+}
 vagy
+\raisebox{-.4\height}{
 \fbox{
 \begin{tikzpicture}
 \node(f1){$f_1$};
@@ -123,7 +127,9 @@ vagy
 \draw (f2) -- (l1);
 \end{tikzpicture}
 }
+}
 
+\raisebox{-.4\height}{
 \fbox{
 \begin{tikzpicture}
 \node(f3){$f_3$};
@@ -134,7 +140,9 @@ vagy
 \draw (f4) -- (l4);
 \end{tikzpicture}
 }
+}
 vagy
+\raisebox{-.4\height}{
 \fbox{
 \begin{tikzpicture}
 \node(f3){$f_3$};
@@ -145,6 +153,17 @@ vagy
 \draw (f4) -- (l3);
 \end{tikzpicture}
 }
+}
 
 Minden sorból választunk egyet: $2^n$ lehetőség.\\
 \textbf{HF. } az összes így kapott párosítás stabil (nincs instabilitás).
+
+\textbf{Miért lesz ez mind stabil párosítás?}
+
+Ha a felső kockát választottuk, akkor $f_1$ párja a preferencialistáján az első lány, így $f_1$ nem lehet instabilitás fiú tagja.
+
+Ha az alsó kockát választottuk, akkor $f_1$ párja a preferencialistáján a második lány, így $f_1$ csak az $l_1$ lánnyal lehet instabilitásban.
+Azonban $f_1$ utolsó $l_1$ preferencialistáján, így akárki is $l_1$ párja, ő jobban tetszik $l_1$-nek, mint $f_1$.
+Így $f_1$ most sem lehet instabilitás fiú tagja.
+
+Ez a gondolatmenet minden fiúra alkalmazható, így mind a $2^n$ párosítás stabil.

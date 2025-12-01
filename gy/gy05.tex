@@ -67,7 +67,9 @@ Legkisebb téglalap $\rightarrow$ legkisebb sokszög (amely az összes pontot ta
 
 Nem nehéz belátni, hogy a két legtávolabbi pont a konvex burok két csúcsa.
 
-Első lépés a két legtávolabbi pont meghatározásához a \ul{konvex burok meghatározása}.
+\setulcolor{blue}
+Az első lépés a két legtávolabbi pont meghatározásához a \ul{konvex burok meghatározása}.
+\setulcolor{black}
 
 $(x_1, y_1), (x_2, y_2), \cdots, (x_n, y_n) \rightarrow$ a konvex burok csúcsainak felsorolása a konvex burkon az óramutató járása szerint.
 
@@ -76,7 +78,7 @@ Legalább annyira, mint a rendezés.
 
 $(x_1, x_1^2), (x_2, x_2^2), \cdots, (x_n, x_n^2)$ bemenethez:
 
-\begin{tikzpicture}%[scale=0.7]
+\begin{tikzpicture}
 \begin{axis}[
     axis lines=middle,
     ymin=-2, ymax=8,
@@ -113,8 +115,8 @@ $(x_1, x_1^2), (x_2, x_2^2), \cdots, (x_n, x_n^2)$ bemenethez:
 \node[red] at (3, 2.9) {\lcirclearrowright};
 \end{tikzpicture}
 
+\clearpage
 Egy konvex burok algoritmus rendezi is az $x_1, x_2, \cdots, x_n$ számokat (csökkenően).
-
 $\mathcal{O}(n \log n)$ költségűek a "jó" konvex burok algoritmusok.
 Több ilyen is van, oszd meg és uralkodj is:
 
@@ -176,9 +178,9 @@ Ezek után a két legtávolabbi csúcs a konvex burkon (nem oszd meg és uralkod
 \node at (4, 0){"két futó index módszer (HF.)"};
 \end{tikzpicture}
 
-\textbf{1. minimális távolság}
+\subsubsection*{Minimális távolság}
 
-Oszd meg és uralkodj algoritmus
+\textbf{Oszd meg és uralkodj algoritmus}
 
 \begin{tikzpicture}
 \fill (0, 0) circle(2pt);
@@ -214,7 +216,7 @@ Oszd meg és uralkodj algoritmus
         \item $P_{bal} \rightarrow \delta_{bal}$
         \item $P_{jobb} \rightarrow \delta_{jobb}$
     \end{itemize}
-    \item min távolság meghatározása
+    \item minimális távolság meghatározása
 \end{enumerate}
 
 A minimális távolság vagy baloldalon vagy jobboldalon van, vagy keresztezi az $l$ felező egyenest.
@@ -240,6 +242,7 @@ Legyen $\delta = min(\delta_{bal}, \delta_{jobb})$.
 
 Ebben a $\delta$ sugarú sávban kell a két pontnak lenni, amelyek a min távolságot minimalizálják.
 
+\clearpage
 Itt van még valami, amit érdemes észrevenni.
 Tekintsük a sávbeli pontokat az $y$ koordinátájuk szerint monoton növekvően rendezetten.
 
@@ -286,7 +289,7 @@ Minden ilyen pont szükségképpen ebben a téglalapban van:
 \end{tikzpicture}
 
 Tekintsük a fenti 8 kis négyzetet.
-Mivel ezek átmérője $\frac{8}{2} \sqrt{2} = \frac{8}{\sqrt{2}} < \delta$, és az $l$ bal, illetve jobb oldalán a min távolság legalább $\delta$, így a 8 kis négyzet egyikében sem lehet egynél több $P$-beli pont.
+Mivel ezek átmérője $\frac{8}{2} \sqrt{2} = \frac{8}{\sqrt{2}} < \delta$, és az $l$ bal, illetve jobb oldalán a minimális távolság legalább $\delta$, így a 8 kis négyzet egyikében sem lehet egynél több $P$-beli pont.
 Így a legalsó ponttól $\delta$-nál kisebb távolságra csak a következő 7 pont valamelyike lehet.
 Felfelé haladva ez mindig igaz lesz.
 
