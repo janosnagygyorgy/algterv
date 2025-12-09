@@ -1,0 +1,111 @@
+\section{előadás (2025. december 2.)}
+\subsubsection*{Közelítő hátizsák feladat}
+\textbf{Tétel}\\
+Minden $\mathcal{E} > 0$ valós számhoz létezik olyan polinomiális algoritmus, amely által visszaadott összérték a hátizsák problémára legalább $\frac{1}{1 + \mathcal{E}}$-szorosa az optimális megoldásnak.
+
+\textbf{Hátizsák feladatunk}
+\begin{flalign*}
+    &t_1 \rightarrow (w_1, v_1) &&\\
+    &t_2 \rightarrow (w_2, v_2) &&\\
+    &\vdots &&\\
+    &t_n \rightarrow (w_n, v_n) &&\\
+    &W                          &&
+\end{flalign*}
+Nyilván azok a tárgyak, amelyek súlya nagyobb, mint W nem lehetnek benne egyetlen megoldásban sem, ezért feltehetjük, hogy $w_i \leq W (1 \leq i \leq n)$
+
+Nyilván elég a tételt olyan $\mathcal{E}$ pozitív számokra igazolni, amelyek pozitív egészek reciprokai.
+
+Definiálhatunk két másik hátizsák feladatot.
+Legyen $b = \frac{\mathcal{E}}{2n} v^*$ (ahol $v^* = \underset{i}{max} v_i$)
+
+A súlyok és a hátizsák kapacitása változatlan.
+
+\fbox{\textbf{I.}} az értékek $\tilde{v}_i = \left\lceil \frac{v_i}{b} \right\rceil b$\\
+\fbox{\textbf{II.}} az értékek $\hat{v}_i = \left\lceil \frac{v_i}{b} \right\rceil = \frac{\tilde{v}_i}{b}$
+
+Jegyezzük meg, hogy $v_i \leq \tilde{v}_i \leq v_i + b$.
+
+Nyilván \fbox{\textbf{I.}} és \fbox{\textbf{II.}} optimális megoldása ugyanaz $\rightarrow \mathcal{J}$
+
+Oldjuk meg \fbox{\textbf{II.}}-t a múlt végén ismertetett DP algoritmussal.
+
+\textbf{Mi is volt ez a DP algoritmus?}
+
+A részproblémák úgy néztek ki, hogy a $t_1, t_2, \cdots, t_i$ tárgyakkal akartunk legalább $j$ értéket elérni minimális összsúly mellett $\rightarrow h^*(i,j)$ volt a min összsúly.
+
+[$1 \leq i \leq n$, $0 \leq j \leq v_1 + v_2 + \cdots + v_i$]
+
+Ekkor:
+\begin{flalign*}
+&h^*[i,j] =
+\begin{cases}
+    0 & \text{ha $j = 0$}\\
+    w_i + h^*[i-1, max \left\{ 0, j - v_i \right\}] & \text{ha $j > v_1  + v_2 + \cdots + v_{i-1}$}\\
+    min
+    \begin{cases}
+        w_i + h^*[i-1, max \left\{ 0, j - v_i \right\}] & \\
+        h^*[i-1, j] &
+    \end{cases} & \text{ha $1 \leq j \leq v_1  + v_2 + \cdots + v_{i-1}$}
+\end{cases}
+&&\\
+\end{flalign*}
+
+%TODO ábra
+
+Költség: n sor, $\leq n v^*$ oszlop, cellánként $\mathcal{O}(1)$ számolás $\rightarrow \mathcal{O}(n^2 v^*)$
+
+\fbox{\textbf{II.}} megoldásának költsége\\
+$\mathcal{O}(n^2 \underset{i}{max} \hat{v}_i)$
+
+Mennyi ez?
+Legyen $\underset{i}{max} v_i = v_j$.
+Ekkor $\underset{i}{max} \hat{v}_i = \hat{v}_j$.
+
+Igen ám, de
+$\hat{v}_j =
+\left\lceil \frac{v_j}{b} \right\rceil =
+\left\lceil \frac{v^*}{b} \right\rceil =
+\left\lceil \frac{v^*}{\frac{\mathcal{E}}{2n} v^*} \right\rceil = 
+\left\lceil \frac{1}{\frac{\mathcal{E}}{2n}} \right\rceil = 
+\left\lceil \frac{2n}{\mathcal{E}} \right\rceil = 
+\frac{2n}{\mathcal{E}}
+$
+($\frac{1}{\mathcal{E}}$ pozitív egész, $2n$ is)
+
+Visszahelyettesítve $\mathcal{O}(n^2 \underset{i}{max} \hat{v}_i)$-ba ez $\mathcal{O}(n^3 \mathcal{E}^{-1})$ ami rögzített $\mathcal{E}$ mellett polinomiális!
+
+Hátra van még az "$\frac{1}{1 + \mathcal{E}}$ rész".
+
+Idézzük fel, hogy $\mathcal{J}$ nem csak a $\hat{v}_i$ értékekkel, de a $\tilde{v}_i$ értékekkel is optimális megoldás.
+
+Mit mondhatunk $\mathcal{J}$-ről a $v_i$ értékek esetén (eredeti hátizsák feladat)?
+
+Tekintsük az eredeti feladat egy tetszőleges $\mathcal{J}^*$ megengedett megoldását (ebben benne van az optimális is).
+
+Megmutatjuk, hogy $\frac{1}{1 + \mathcal{E}} \underset{i \in \mathcal{J}^*}{\sum} v_i \leq \underset{i \in \mathcal{J}}{\sum} v_i$.
+Vagy kicsit átrendezve: $\underset{i \in \mathcal{J}^*}{\sum} v_i \leq (1 + \mathcal{E}) \underset{i \in \mathcal{J}}{\sum} v_i$.
+(Persze $\mathcal{J}$ is egy megengedett megoldása az eredeti feladatnak, mert a súlyok és a kapacitás nem változik.)
+
+Az optimális megoldást adó $\mathcal{J}^*$-gal ez pont a tétel állítása.
+
+\textbf{"Bűvészkedünk"}\\
+Idézzük fel, hogy $v_i \leq \tilde{v}_i \leq v_i + b$.
+Most jön egy hosszú egyenlőtlenséglánc:\\
+$\underset{i \in \mathcal{J}^*}{\sum} v_i \leq 
+\underset{i \in \mathcal{J}^*}{\sum} \tilde{v}_i \leq 
+\underset{i \in \mathcal{J}}{\sum} \tilde{v}_i \leq 
+\underset{i \in \mathcal{J}}{\sum} (v_i + b) \leq 
+\underset{i \in \mathcal{J}}{\sum} v_i + \underset{i \in \mathcal{J}}{\sum} b \leq 
+\left(\underset{i \in \mathcal{J}}{\sum} v_i\right) + nb
+$
+
+$\mathcal{J}$ az optimális megoldás a $\tilde{v}_i$ értékekre.
+Arra hajtunk, hogy $nb \leq \mathcal{E} \underset{i \in \mathcal{J}}{\sum} v_i$.
+
+Piszkos trükk: nézzük az egyenlőtlenséglánc következő részét:
+$
+\underset{i \in \mathcal{J}}{\sum} \tilde{v}_i \leq 
+\left(\underset{i \in \mathcal{J}}{\sum} v_i\right) + nb
+$
+
+Először is a $j$-edik tárgy (ennek a legnagyobb az értéke) önmaga megengedett megoldása \fbox{\textbf{I.}}-nél, így $\tilde{v}_j \leq \underset{i \in \mathcal{J}}{\sum} \tilde{v}_i$.

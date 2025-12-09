@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage[a4paper, portrait, margin=2cm]{geometry}
+\usepackage[hungarian]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[numbered]{bookmark}
+\usepackage{hyperref}
+\usepackage[parfill]{parskip}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mwe}
+\usetikzlibrary{positioning, arrows.meta, calc, shapes.geometric, snakes}
+
+\makeatletter
+\renewcommand{\Hy@numberline}[1]{#1. }
+\makeatother
+
+\begin{document}
+NÉV:\\
+NEPTUN:
+
+\begin{center}
+    \vspace{0.5cm}
+    \Large
+    \textbf{Algoritmusok tervezése és elemzése zh.}
+    \vspace{1cm}
+\end{center}
+
+\textbf{1.} Az ismeretségi körünkben van néhány magányos fiú és ugyanennyi magányos lány.
+A preferencia listák a következők:
+
+\begin{center}
+\begin{tabular}{l}
+    $f_1 \rightarrow (l_2, l_4, l_3, l_1)$ \\
+    $f_2 \rightarrow (l_4, l_1, l_2, l_3)$ \\
+    $f_3 \rightarrow (l_1, l_4, l_3, l_2)$ \\
+    $f_4 \rightarrow (l_2, l_1, l_3, l_4)$ \\
+                                           \\
+    $l_1 \rightarrow (f_3, f_1, f_4, f_2)$ \\
+    $l_2 \rightarrow (f_2, f_1, f_4, f_3)$ \\
+    $l_3 \rightarrow (f_1, f_4, f_3, f_2)$ \\
+    $l_4 \rightarrow (f_4, f_3, f_1, f_2)$ 
+\end{tabular}
+\end{center}
+
+Mutassuk meg, hogy csak egyetlen stabil párosítás létezik közöttük!
+
+\textbf{2.} Tegyük fel, hogy az ismeretségi körünkben van néhány magányos fiú és ugyanennyi magányos lány.
+Minden fiúnak van egy személyes preferencia listája a lányokról: ki tetszik neki a legjobban, ki a második, és így tovább.
+Egy ilyen listán minden lány szerepel, és bármely két lány esetén egyértelmű, hogy az adott fiú melyikekkel jönne szívesebben össze.
+Természetesen a lányoknak is van ugyanilyen személyes preferencia listája a fiúkról.
+Mutassuk meg, hogy a Gale-Shapley algoritmus (fiúk szerenádoznak a lányok erkélye alatt verziója) által visszaadott stabil párosításban legfeljebb egy olyan fiú lehet, akinek a preferencia listáján utolsó helyen álló lány a párja!
+
+\textbf{3.} Adott tetszőleges valós számoknak egy $A[1:n]$ tömbje.
+Tervezzünk $O(n \log n)$ költségű oszd meg és uralkodj algoritmust, amely meghatároz két olyan $1 \leq i \leq j \leq n$ indexet, amelyekre az $A[i] + A[i + 1] + \cdots + A[j]$ összeg maximális!
+
+\textbf{4.} A tanult dinamikus programozási algoritmussal határozzuk meg a $(b, c, a, b, a, a, a, c)$ és a $(c, a, b, a, b, a, a)$ karakterláncok egy leghosszabb közös részsorozatát!
+
+\textbf{5.} Adott 6 tárgy, amelyek súlyát és értékét a következő táblázat tartalmazza.
+\begin{center}
+    \begin{tabular}{|c||c|c|c|c|c|c|}
+        \hline
+        i & 1 & 2 & 3 & 4 & 5 & 6 \\
+        \hline
+        $w_i$ & 3 & 4 & 1 & 3 & 1 & 2 \\
+        \hline
+        $v_i$ & 10 & 30 & 90 & 90 & 70 & 90 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+A tanult dinamikus programozási algoritmussal határozzuk meg a tárgyaknak egy olyan részhalmazát, amelyben a tárgyak értékének összege a lehető legnagyobb, súlyuk összege viszont maximum 10.
+
+\end{document}
