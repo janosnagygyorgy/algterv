@@ -33,7 +33,28 @@ Szeretnénk az $M$ olyan részhalmazát választani, aminek van megengedett üte
 Ez NP-nehéz feladat.
 Létezik DP algoritmus a feladat megoldására.
 
-%TODO ábra
+\begin{tikzpicture}
+\draw (0, 0) -- (4.5, 0);
+\draw (0.5, -0.2) -- (0.5, 0.2);
+\draw (4, -0.2) -- (4, 0.2);
+
+\node at (0.5, -0.4){$0$};
+\node at (4, -0.4){$d$};
+
+\node at (0.6, 0) {[};
+\node at (1.2, 0) {]};
+\node at (0.9, -0.4) {$w_{i_1}$};
+
+\node at (1.3, 0) {[};
+\node at (1.9, 0) {]};
+\node at (1.6, -0.4) {$w_{i_2}$};
+
+\node at (2.0, 0) {[};
+\node at (2.6, 0) {]};
+\node at (2.3, -0.4) {$w_{i_3}$};
+
+\end{tikzpicture}
+
 Speciális eset: $d_1 = d_2 = \cdots = d_n = d$.
 Minden határidő ugyanaz $\rightarrow$ hátizsák probléma $t_i$ súlyokkal, $w_i$ értékkel, $d$ kapacitással.
 
@@ -51,11 +72,33 @@ Ha az $m_i$ munka bevételével $\underset{m_j \in H}{\sum} t_j > d_i$ adódik, 
 
 Végül a $H$-beli feladatokat ütemezzük a 0. időpillanattól szünet nélkül a határidők szerint növekvő sorrendben (kanonikus ütemezés).
 
-%TODO ábra
+\begin{tikzpicture}
+\draw (0, 0) -- (5.5, 0);
+
+\draw (0.5, -0.2) -- (0.5, 0.2);
+\draw (1.2, -0.2) -- (1.2, 0.2);
+\draw (1.9, -0.2) -- (1.9, 0.2);
+\draw (2.6, -0.2) -- (2.6, 0.2);
+
+\draw (3.8, -0.2) -- (3.8, 0.2);
+\draw (4.5, -0.2) -- (4.5, 0.2);
+
+\node at (0.5, -0.4){$0$};
+\node at (0.9, 0.4){$t_1$};
+\node at (1.6, 0.4){$t_2$};
+\node at (2.3, 0.4){$t_3$};
+\node at (3.0, -0.4){$\cdots$};
+\node at (3.4, 0.4){$t_{i-1}$};
+\node at (4.2, 0.4){$t_i$};
+
+\draw[-Latex] (4.2, -0.8) -- (4.2, -0.1);
+\node at (4.2, -1) {$d_{i-1} \leq d_i$};
+\end{tikzpicture}
 
 \textbf{Állítás:} $H$-ban minden munka befejeződik legkésőbb a határidőre.\\
 \textbf{Bizonyítás:} triviális.
 
+\clearpage
 \textbf{Állítás:} $H$ optimális ütemezés az adott munkákra nézve.\\
 \textbf{Bizonyítás:}\\
 Indukció $n$-re ($|M| = n$)
@@ -112,7 +155,7 @@ Műveletek $H$-val:
 $\Rightarrow$ $n$ darab munkára $\mathcal{O}(n \log n)$ költség
 
 \textbf{Állítás:} van olyan $\mathcal{O}$ optimális kanonikus ütemezés, hogy $m_k$ ebben sem szerepel.\\
-\textbf{Bizonyítás:} tfh. $mathcal{O}$ optimális kanonikus ütemezés és $m_k$ benne van $m_k$ választásából adódik, hogy az $m_i$ bevételekor távolítottuk el $m_k$-t $H$-ból.
+\textbf{Bizonyítás:} tfh. $\mathcal{O}$ optimális kanonikus ütemezés és $m_k$ benne van $m_k$ választásából adódik, hogy az $m_i$ bevételekor távolítottuk el $m_k$-t $H$-ból.
 
 $\overset{i}{\underset{j=1}{\sum}} t_i > d_i$
 
@@ -122,10 +165,40 @@ Legyen $m_l$ az a munka, ami nincs $\mathcal{O}$-ban ($1 \leq l \leq i, l \neq k
 
 Cseréljük ki $\mathcal{O}$-ban az $m_k$ munkát $m_l$-re, ütemezzük kanonikusan, legyen ez $\mathcal{O}^*$.
 
+\clearpage
 \textbf{Állítás:} $\mathcal{O}^*$-ban is minden munka befejeződik határidőre.\\
 \textbf{Bizonyítás:} $m_k$ választása miatt $t_k \geq t_l$.
-$\mathcal{O}$ %TODO ábra
-$\mathcal{O}^*$: %TODO ábra
+
+$\mathcal{O}$:
+\raisebox{-.5\height}{
+\begin{tikzpicture}
+\draw (0,0) rectangle ++(5,0.5);
+\draw (5.5,0) rectangle ++(4,0.5);
+
+\draw[decoration={brace, raise=0.05cm, mirror}, decorate] (0, 0) -- (5, 0);
+\node at (2.5, -0.5) {$m_1, m_2, \cdots, m_i$ ütemezése};
+\node at (7.5, -0.5) {$m_{i+1}, m_{i+2}, \cdots, m_n$};
+
+\draw (2.0, 0) -- (2.0, 0.5);
+\draw (2.5, 0) -- (2.5, 0.5);
+\node at (2.25, 0.8) {$m_k$};
+\end{tikzpicture}
+}
+
+$\mathcal{O}^*$:
+\raisebox{-.85\height}{
+\begin{tikzpicture}
+\draw (0,0) rectangle ++(5,0.5);
+\draw (5.5,0) rectangle ++(4,0.5);
+\node at (2.5, -0.3) {$m_k$-t lecseréltük a nála};
+\node at (2.5, -0.7) {rövidebb idejű $m_l$-re};
+\node at (3.0, -1.7) {minden munka vagy helyben maradt,};
+\node at (3.0, -2.1) {vagy balra csúszott $\rightarrow$ kész lesz mind};
+
+\draw[-Latex] (2.5, -1.0) -- (2.5, -1.5);
+
+\end{tikzpicture}
+}
 
 $\mathcal{O}^*$ is optimális, és $\mathcal{O}^*$ nem tartalmazza az $m_k$ munkát. QED
 

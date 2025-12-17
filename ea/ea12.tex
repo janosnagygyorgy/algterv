@@ -50,7 +50,14 @@ Ekkor:
 &&\\
 \end{flalign*}
 
-%TODO ábra
+\textbf{Táblázat}\\
+\begin{tikzpicture}
+\node(img) {\includegraphics[width=6cm]{ea/img/ea12_matrix.pdf}};
+\node[above right=-0.3cm and -3.5cm of img]{opt. mo, ez az oszlopindex};
+\node[below right=-0.2cm and -4.9cm of img]{$\rightarrow$ utolsó $\leq W$ érték};
+
+\draw[-Latex] (0.52, -2.43) -- (0.52, 2.7);
+\end{tikzpicture}
 
 Költség: n sor, $\leq n v^*$ oszlop, cellánként $\mathcal{O}(1)$ számolás $\rightarrow \mathcal{O}(n^2 v^*)$
 
